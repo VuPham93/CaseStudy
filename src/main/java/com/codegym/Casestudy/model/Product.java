@@ -24,7 +24,7 @@ public class Product {
     private double price;
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonIgnoreProperties(value = "product")
     private List<Sku> skuList;
 

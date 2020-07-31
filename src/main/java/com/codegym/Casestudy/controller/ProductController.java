@@ -99,11 +99,7 @@ public class ProductController {
         for (Long skuId : oldSkuIdList) {
             if (!newSkuIdList.contains(skuId)) {
                 Optional<Sku> sku = skuService.findById(skuId);
-                sku.ifPresent(value -> {
-                    value.setProduct(null);
-                    skuService.save(value);
-                    skuService.delete(value.getSkuId());
-                });
+                    skuService.delete(skuId);
             }
         }
 
