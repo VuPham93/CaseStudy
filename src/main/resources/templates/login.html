@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style-login.css}">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Hind&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+</head>
+
+<body th:style="'background: url(/img/background.jpg) no-repeat center center fixed;'">
+
+<!--CONTENT-->
+<div class="login-form">
+    <!--Go back-->
+    <a href="#">< Go back</a>
+
+    <!--Logo-->
+    <div class="logo"><img th:src="@{/img/logo.png}" alt="logo"></div>
+
+    <!--Social-->
+    <div class="social-media">
+        <button class="fb"><img th:src="@{/img/fb.png}" alt="facebook"></button>
+        <button class="google"><img th:src="@{/img/google.png}" alt="google"></button>
+        <button class="twitter"><img th:src="@{/img/twitter.png}" alt="twitter"></button>
+    </div>
+
+    <!--Title-->
+    <h6>Sign In</h6>
+
+    <!--Sign In form-->
+    <form class="form clearfix" method="post" th:action="@{/authenticateTheUser}">
+        <!--User name-->
+        <div class="textbox">
+            <input type="text" placeholder="Email" name="mail">
+            <span class="check-message hidden">Required</span>
+        </div>
+
+        <!--Password-->
+        <div class="textbox">
+            <input type="password" name="password" placeholder="Password" id="password">
+            <span class="check-message hidden">Required</span>
+        </div>
+
+        <!--Error-->
+        <div style="height: 20px">
+            <p style="color: red; text-align: center">ERROR MESSAGE</p>
+        </div>
+
+        <!--Remember-->
+        <div class="options">
+            <label class="remember-me">
+                <span class="checkbox"><input type="checkbox"><span class="checked"></span></span>
+                <p style="color: #393939">Remember Me</p>
+            </label>
+
+            <!--Forgot password-->
+            <a href="#">forgot your password</a>
+        </div>
+
+        <!--Login button-->
+        <input type="submit" value="Log In Now" class="signIn-btn" disabled>
+
+        <!--Private Policy-->
+        <div class="privacy-link">
+            <a href="#">Private Policy</a>
+        </div>
+    </form>
+
+    <!--Sign Up-->
+    <div class="dont-have-account">Don't have an account ?<a href="#"> Sign Up</a></div>
+</div>
+<!--END OF CONTENT-->
+<script th:src="@{/css/active-button.js}"></script>
+</body>
+</html>

@@ -95,6 +95,7 @@ public class ProductController {
         List<Long> newSkuIdList = product.getSkuIdList();
 
         product.removeSku();
+
         for (Long skuId : oldSkuIdList) {
             if (!newSkuIdList.contains(skuId)) {
                 Optional<Sku> sku = skuService.findById(skuId);
