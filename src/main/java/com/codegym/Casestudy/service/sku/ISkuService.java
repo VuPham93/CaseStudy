@@ -11,5 +11,5 @@ public interface ISkuService {
 
     Sku save(Sku sku);
 
-    void delete(Sku sku);
+    void delete(Long id);
 }

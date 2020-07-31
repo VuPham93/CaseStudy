@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
+
 @RequestMapping("/product")
 @Controller
 public class ProductController {
@@ -96,7 +98,12 @@ public class ProductController {
 
         for (Long skuId : oldSkuIdList) {
             if (!newSkuIdList.contains(skuId)) {
-                skuService.delete(skuService.findById(skuId).get());
+                Optional<Sku> sku = skuService.findById(skuId);
+                sku.ifPresent(value -> {
+                    value.setProduct(null);
+                    skuService.save(value);
+                    skuService.delete(value.getSkuId());
+                });
             }
         }
 

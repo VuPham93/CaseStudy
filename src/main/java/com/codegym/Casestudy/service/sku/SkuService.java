@@ -28,7 +28,7 @@ public class SkuService implements ISkuService {
     }
 
     @Override
-    public void delete(Sku sku) {
-        skuRepository.delete(sku);
+    public void delete(Long id) {
+        skuRepository.deleteById(id);
     }
 }
