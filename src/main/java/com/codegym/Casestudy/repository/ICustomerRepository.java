@@ -1,8 +1,8 @@
 package com.codegym.Casestudy.repository;
 
-import com.codegym.Casestudy.model.Customer;
+import com.codegym.Casestudy.model.user.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ICustomerRepository extends JpaRepository<Customer,Long> {
-    Customer findByAccount(String account);
+    Customer findByMail(String mail);
 }
