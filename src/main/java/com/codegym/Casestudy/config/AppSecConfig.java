@@ -34,12 +34,12 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/home/").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers("/admin/").access("hasRole('ADMIN')")
-                .antMatchers("/").access("hasRole('USER')")
+                .antMatchers("/user/").access("hasRole('USER')")
                 .and()
                 .formLogin()
-                .loginPage("/")
+                .loginPage("/home/login")
                 .loginProcessingUrl("/authenticateTheUser")
                 .defaultSuccessUrl("/home", true)
                 .usernameParameter("mail").passwordParameter("password")
