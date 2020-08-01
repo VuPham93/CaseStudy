@@ -299,7 +299,7 @@
         $('.add_to_cart').click(function () {
             var productId = $('#productId').val();
             $.ajax({
-                type: "POST",
+                type: "GET",
 
                 //tên API
                 url: "/cart/addtocart/" + productId,

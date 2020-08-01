@@ -5,11 +5,14 @@ import com.codegym.Casestudy.model.Product;
 import com.codegym.Casestudy.service.cart.ICartService;
 import com.codegym.Casestudy.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class CartController {
     IProductService productService;
 
     @GetMapping("/addtocart/{id}")
-    public ModelAndView addToCart(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> addToCart(@PathVariable("id") Long id) {
         Cart cart = cartService.findCartByUserId(1L);
         if (cart != null) {
             List<Product> products = (List<Product>) cart.getProducts();
@@ -39,18 +42,18 @@ public class CartController {
             cart.setProducts(products);
             cartService.save(cart);
         }
-        Iterable<Product> products = productService.findAll();
-        ModelAndView modelAndView = new ModelAndView("product/list");
-        modelAndView.addObject("products", products);
-        modelAndView.addObject("message", "add cart ok");
-        return modelAndView;
+//        Iterable<Product> products = productService.findAll();
+//        ModelAndView modelAndView = new ModelAndView("product/list");
+//        modelAndView.addObject("products", products);
+//        modelAndView.addObject("message", "add cart ok");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/")
     public ModelAndView listCart() {
         Cart cart = cartService.findCartByUserId(1L);
         Iterable<Product> products = cart.getProducts();
-        ModelAndView modelAndView = new ModelAndView("product/cart");
+        ModelAndView modelAndView = new ModelAndView("cart/cart");
         modelAndView.addObject("products", products);
         modelAndView.addObject("cart", cart);
         return modelAndView;
