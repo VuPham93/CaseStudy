@@ -66,7 +66,7 @@ public class CartController {
         products.remove(productService.findById(id));
         cart.setProducts(products);
         cartService.save(cart);
-        ModelAndView modelAndView = new ModelAndView("product/cart");
+        ModelAndView modelAndView = new ModelAndView("/cart/cart");
         modelAndView.addObject("products", products);
         modelAndView.addObject("cart", cart);
         return modelAndView;

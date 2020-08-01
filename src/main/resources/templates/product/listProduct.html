@@ -50,9 +50,9 @@
                         <div class="make3D">
                             <div class="product-front">
                                 <div class="shadow"></div>
-                                <img th:src="@{/img/product/ao1.png}"/>
+                                <img th:src="@{/img/product/__${product.picture}__}"/>
                                 <div class="image_overlay"></div>
-                                <div class="add_to_cart">Add to cart</div>
+                                <div class="add_to_cart" th:value="${product.productId}">Add to cart</div>
                                 <div class="view_gallery"><a th:href="@{/product.detail/__${product.productId}__}">detail</a></div>
                                 <div class="stats">
                                     <div class="stats-container">
@@ -222,35 +222,6 @@
                     $("body").addClass("MakeFloatingCart");
                 }, 800);
 
-                // setTimeout(function(){
-                //     $('div.floating-cart').remove();
-                //     $("body").removeClass("MakeFloatingCart");
-                //
-                //
-                //     var cartItem = "<div class='cart-item'><div class='img-wrap'><img src='"+img.src+"' alt='' /></div><span>"+productName+"</span><strong>$39</strong><div class='cart-item-border'></div><div class='delete-item'></div></div>";
-                //
-                //     $("#cart .empty").hide();
-                //     $("#cart").append(cartItem);
-                //     $("#checkout").fadeIn(500);
-                //
-                //     $("#cart .cart-item").last()
-                //         .addClass("flash")
-                //         .find(".delete-item").click(function(){
-                //         $(this).parent().fadeOut(300, function(){
-                //             $(this).remove();
-                //             if($("#cart .cart-item").size() == 0){
-                //                 $("#cart .empty").fadeIn(500);
-                //                 $("#checkout").fadeOut(500);
-                //             }
-                //         })
-                //     });
-                //     setTimeout(function(){
-                //         $("#cart .cart-item").last().removeClass("flash");
-                //     }, 10 );
-                //
-                // }, 1000);
-
-
             });
         })
 
@@ -297,7 +268,8 @@
         });
 
         $('.add_to_cart').click(function () {
-            var productId = $('#productId').val();
+            // var productId = $('#productId').val();
+            var productId =$(this).attr("value");
             $.ajax({
                 type: "GET",
 
