@@ -12,6 +12,8 @@ public interface IProductService {
 
     Iterable<Product> findByName(String productName);
 
+    Product findProductBySkuId(Long skuId);
+
     Product save(Product product);
 
     void delete(Long id);
