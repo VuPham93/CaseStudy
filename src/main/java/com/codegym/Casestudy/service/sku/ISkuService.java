@@ -9,6 +9,8 @@ public interface ISkuService {
 
     Optional<Sku> findById(Long id);
 
+    Sku findByProductIdAndAndOptions(Long productId, Long sizeOptionId, Long colorOptionId);
+
     Sku save(Sku sku);
 
     void delete(Long id);
