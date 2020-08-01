@@ -9,13 +9,21 @@ import com.codegym.Casestudy.service.option.IOptionService;
 import com.codegym.Casestudy.service.product.IProductService;
 import com.codegym.Casestudy.service.sku.ISkuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @RequestMapping("/product")
 @Controller
 public class ProductController {
@@ -30,6 +38,9 @@ public class ProductController {
 
     @Autowired
     private IOptionService optionService;
+
+    @Autowired
+    private Environment environment;
 
     @ModelAttribute("categories")
     public Iterable<Category> categories() {
@@ -69,12 +80,28 @@ public class ProductController {
 
     @PostMapping("/create")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product newProduct1 = productService.save(product);
-        List<Sku> skuList = newProduct1.getSkuList();
+        Product newProduct = productService.save(product);
+        List<Sku> skuList = newProduct.getSkuList();
         for (Sku sku: skuList){
-            sku.setProduct(newProduct1);
+            sku.setProduct(newProduct);
             skuService.save(sku);
         }
+        return new ResponseEntity<>(newProduct, HttpStatus.OK);
+    }
+
+    @PostMapping("/img-upload")
+    @ResponseBody
+    public ResponseEntity<String> fileUpload(@RequestParam Map<String, MultipartFile> data) {
+        MultipartFile file = data.get("image");
+
+        String fileName = file.getOriginalFilename();
+        String fileUpload = environment.getProperty("upload.path");
+        try {
+            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -96,7 +123,8 @@ public class ProductController {
 
         for (Long skuId : oldSkuIdList) {
             if (!newSkuIdList.contains(skuId)) {
-                skuService.delete(skuService.findById(skuId).get());
+                Optional<Sku> sku = skuService.findById(skuId);
+                    skuService.delete(skuId);
             }
         }
 
@@ -120,5 +148,11 @@ public class ProductController {
     public ResponseEntity<Product> delete(@PathVariable Long id) {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-product-id-and-and-options/{productId}/{sizeOptionId}/{colorOptionId}")
+    public ResponseEntity<Sku> findByProductIdAndAndOptions(@PathVariable Long productId, @PathVariable Long sizeOptionId, @PathVariable Long colorOptionId) {
+        Sku sku = skuService.findByProductIdAndAndOptions(productId, sizeOptionId, colorOptionId);
+        return new ResponseEntity<>(sku, HttpStatus.OK);
     }
 }

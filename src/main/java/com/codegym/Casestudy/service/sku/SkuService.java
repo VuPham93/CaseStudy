@@ -23,12 +23,18 @@ public class SkuService implements ISkuService {
     }
 
     @Override
+    public Sku findByProductIdAndAndOptions(Long productId, Long sizeOptionId, Long colorOptionId) {
+//        return skuRepository.findByProductProductIdAndAndOptions(productId, sizeOptionId, colorOptionId);
+        return null;
+    }
+
+    @Override
     public Sku save(Sku sku) {
         return skuRepository.save(sku);
     }
 
     @Override
-    public void delete(Sku sku) {
-        skuRepository.delete(sku);
+    public void delete(Long id) {
+        skuRepository.deleteById(id);
     }
 }

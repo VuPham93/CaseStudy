@@ -1,6 +1,7 @@
 package com.codegym.Casestudy.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -24,7 +25,7 @@ public class Product {
     private double price;
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JsonIgnoreProperties(value = "product")
     private List<Sku> skuList;
 
@@ -50,6 +51,22 @@ public class Product {
 
     @ManyToOne
     private Category category;
+
+    private String picture;
+
+    @Transient
+    private MultipartFile image;
+
+    public Product(Long productId, String productName, @NotEmpty String detail, double price, List<Sku> skuList, Category category, String picture, MultipartFile image) {
+        this.productId = productId;
+        this.productName = productName;
+        this.detail = detail;
+        this.price = price;
+        this.skuList = skuList;
+        this.category = category;
+        this.picture = picture;
+        this.image = image;
+    }
 
     public Product(Long productId, String productName, @NotEmpty String detail, @NotEmpty double price, Category category) {
         this.productId = productId;
@@ -108,6 +125,22 @@ public class Product {
 
     public void setSkuList(List<Sku> skuList) {
         this.skuList = skuList;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }
 
