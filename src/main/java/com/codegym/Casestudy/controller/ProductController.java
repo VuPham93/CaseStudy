@@ -48,7 +48,7 @@ public class ProductController {
 
     @GetMapping("/")
     public ModelAndView showList() {
-        ModelAndView modelAndView = new ModelAndView("/product/list");
+        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
         Iterable<Product> productPageable = productService.findAll();
         modelAndView.addObject("products", productPageable);
         return modelAndView;
