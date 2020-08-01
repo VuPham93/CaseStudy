@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ISkuRepository extends CrudRepository<Sku, Long> {
-//    Sku findByProductProductIdAndAndOptions(Long productId, Long sizeOptionId, Long colorOptionId);
+    Iterable<Sku> findByProductProductId(Long productId);
 }
