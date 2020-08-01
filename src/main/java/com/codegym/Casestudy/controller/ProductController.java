@@ -150,9 +150,15 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/find-by-product-id-and-and-options/{productId}/{sizeOptionId}/{colorOptionId}")
-    public ResponseEntity<Sku> findByProductIdAndAndOptions(@PathVariable Long productId, @PathVariable Long sizeOptionId, @PathVariable Long colorOptionId) {
-        Sku sku = skuService.findByProductIdAndAndOptions(productId, sizeOptionId, colorOptionId);
-        return new ResponseEntity<>(sku, HttpStatus.OK);
+    @GetMapping("/findByProductName/{productName}")
+    public ResponseEntity<Iterable<Product>> findByProductIdAndAndOptions(@PathVariable String productName) {
+        Iterable<Product> productList = productService.findByName(productName);
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByProductIdAndOptions/{productId}/{sizeOption}/{colorOption}")
+    public ResponseEntity<Sku> findByProductIdAndAndOptions(@PathVariable Long productId, @PathVariable Long sizeOption, @PathVariable Long colorOption) {
+        Sku skuList = skuService.findByProductIdAndOptions(productId, sizeOption, colorOption);
+        return new ResponseEntity<>(skuList, HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.codegym.Casestudy.service.product;
 import com.codegym.Casestudy.model.Product;
 import com.codegym.Casestudy.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,6 +21,11 @@ public class ProductService implements IProductService {
     @Override
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<Product> findByName(String productName) {
+        return productRepository.findByProductNameContains(productName);
     }
 
     @Override
