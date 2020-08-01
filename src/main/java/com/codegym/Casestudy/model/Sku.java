@@ -25,7 +25,7 @@ public class Sku {
                inverseJoinColumns = @JoinColumn(name = "optionId"))
     private Collection<Option> options;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JsonIgnoreProperties(value = "sku")
     private Product product;
 

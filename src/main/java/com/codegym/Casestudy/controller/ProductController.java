@@ -150,9 +150,21 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/find-by-product-id-and-and-options/{productId}/{sizeOptionId}/{colorOptionId}")
-    public ResponseEntity<Sku> findByProductIdAndAndOptions(@PathVariable Long productId, @PathVariable Long sizeOptionId, @PathVariable Long colorOptionId) {
-        Sku sku = skuService.findByProductIdAndAndOptions(productId, sizeOptionId, colorOptionId);
-        return new ResponseEntity<>(sku, HttpStatus.OK);
+    @GetMapping("/findProductBySkuId/{skuId}")
+    public ResponseEntity<Product> findProductBySkuId(@PathVariable Long skuId) {
+        Product product =productService.findProductBySkuId(skuId);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @GetMapping("/findSkuByProductName/{productName}")
+    public ResponseEntity<Iterable<Product>> findSkuByProductIdAndAndOptions(@PathVariable String productName) {
+        Iterable<Product> productList = productService.findByName(productName);
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    @GetMapping("/findSkuByProductIdAndOptions/{productId}/{sizeOption}/{colorOption}")
+    public ResponseEntity<Sku> findSkuByProductIdAndAndOptions(@PathVariable Long productId, @PathVariable Long sizeOption, @PathVariable Long colorOption) {
+        Sku skuList = skuService.findByProductIdAndOptions(productId, sizeOption, colorOption);
+        return new ResponseEntity<>(skuList, HttpStatus.OK);
     }
 }

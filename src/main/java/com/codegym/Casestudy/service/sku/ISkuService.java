@@ -9,7 +9,9 @@ public interface ISkuService {
 
     Optional<Sku> findById(Long id);
 
-    Sku findByProductIdAndAndOptions(Long productId, Long sizeOptionId, Long colorOptionId);
+    Iterable<Sku> findByProductId(Long productId);
+
+    Sku findByProductIdAndOptions(Long productId, Long sizeOption, Long colorOption);
 
     Sku save(Sku sku);
 
