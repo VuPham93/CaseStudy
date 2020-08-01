@@ -76,6 +76,8 @@
             let categoryId = $("#categoryId").val();
             let detail = $("#detail").val();
             let price = $("#price").val();
+            let image = $("#file-upload")[0].files[0];
+            let picture = image.name;
 
             let json = {
                 "productName": productName,
@@ -84,7 +86,8 @@
                 "skuList": jsonList,
                 "category": {
                     "categoryId": categoryId
-                }
+                },
+                "picture": picture,
             };
 
             $.ajax({
@@ -96,6 +99,24 @@
                 data: JSON.stringify(json),
                 url: "/product/create",
                 success: function () {
+                    let file = new FormData();
+                    file.append('image', image);
+
+                    $.ajax({
+                        url: "/product/img-upload",
+                        type: "POST",
+                        data: file,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        success: function (res) {
+                            console.log(res);
+                        },
+                        error: function (err) {
+                            console.error(err);
+                        }
+                    });
                     document.getElementById("message").innerHTML = "Product added!"
                 }
             });
@@ -110,7 +131,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
         <!--Logo-->
         <a class="navbar-brand pb-2" href="#">
-            <img src="style/img/logo.png" height="30" width="110"/>
+            <img  th:src="@{/img/logo.png}" height="30" width="110"/>
         </a>
 
         <!--Navigation bar toggle-->
@@ -237,6 +258,10 @@
     <h1>Add new product</h1>
     <div>
     <h4 class="text-success d-flex justify-content-center" id="message"></h4>
+
+        <label for="file-upload">Select file to upload</label>
+        <input type="file" id="file-upload" name="file">
+
     <fieldset>
         <legend>Product information</legend>
         <table class="table table-borderless table-hover">
