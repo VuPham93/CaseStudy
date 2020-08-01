@@ -7,6 +7,8 @@ import com.codegym.Casestudy.service.sku.ISkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +18,16 @@ public class ProductService implements IProductService {
 
     @Autowired
     private ISkuService skuService;
+
+    @Override
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
 
     @Override
     public Iterable<Product> findAll() {
@@ -39,12 +51,18 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product save(Product product) {
-        return productRepository.save(product);
+    public Iterable<Product> findProductByCategory(Long categoryId) {
+        return productRepository.findByCategoryCategoryId(categoryId);
     }
 
     @Override
-    public void delete(Long id) {
-        productRepository.deleteById(id);
+    public Iterable<Product> findProductByOptionId(Long optionId) {
+        Iterable<Sku> skuList = skuService.findByOptionId(optionId);
+        List<Product> products = new ArrayList<>();
+        for (Sku sku: skuList) {
+            products.add(findProductBySkuId(sku.getSkuId()));
+        }
+        return products;
     }
+
 }

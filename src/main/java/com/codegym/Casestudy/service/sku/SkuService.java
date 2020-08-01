@@ -21,6 +21,16 @@ public class SkuService implements ISkuService {
     private IOptionService optionService;
 
     @Override
+    public Sku save(Sku sku) {
+        return skuRepository.save(sku);
+    }
+
+    @Override
+    public void delete(Long id) {
+        skuRepository.deleteById(id);
+    }
+
+    @Override
     public Iterable<Sku> findAll() {
         return skuRepository.findAll();
     }
@@ -58,12 +68,17 @@ public class SkuService implements ISkuService {
     }
 
     @Override
-    public Sku save(Sku sku) {
-        return skuRepository.save(sku);
-    }
+    public Iterable<Sku> findByOptionId(Long optionId) {
+        Iterable<Sku> skuList = skuRepository.findAll();
+        List<Sku> foundSkuList = new ArrayList<>();
 
-    @Override
-    public void delete(Long id) {
-        skuRepository.deleteById(id);
+        for (Sku sku : skuList) {
+            Collection<Option> optionList = sku.getOptions();
+
+            if (optionList.contains(optionService.findByOptionId(optionId).get())) {
+                foundSkuList.add(sku);
+            }
+        }
+        return foundSkuList;
     }
 }
