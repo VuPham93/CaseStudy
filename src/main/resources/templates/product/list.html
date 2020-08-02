@@ -32,7 +32,9 @@
     </tr>
     <th:block th:each="product:${products}">
         <tr>
-            <td th:text="${product.productName}"></td>
+            <td>
+                <a th:href="@{/product/detail/__${product.productId}__}" th:text="product.name"></a>
+            </td>
             <td th:text="${product.category.categoryName}"></td>
             <td th:text="${product.detail}"></td>
             <td th:text="${product.price}"></td>
