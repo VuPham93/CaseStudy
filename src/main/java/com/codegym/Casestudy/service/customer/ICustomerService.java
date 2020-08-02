@@ -9,4 +9,5 @@ public interface ICustomerService extends IService<Customer>{
   boolean emailExists(String email);
   void registerNewUserAccount(Customer customer)
           throws UserAlreadyExistException;
+  public void update(Customer model);
 }
