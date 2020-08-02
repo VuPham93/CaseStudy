@@ -5,6 +5,10 @@ import com.codegym.Casestudy.model.Sku;
 import java.util.Optional;
 
 public interface ISkuService {
+    Sku save(Sku sku);
+
+    void delete(Long id);
+
     Iterable<Sku> findAll();
 
     Optional<Sku> findById(Long id);
@@ -13,7 +17,5 @@ public interface ISkuService {
 
     Sku findByProductIdAndOptions(Long productId, Long sizeOption, Long colorOption);
 
-    Sku save(Sku sku);
-
-    void delete(Long id);
+    Iterable<Sku> findByOptionId(Long optionId);
 }

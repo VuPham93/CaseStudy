@@ -6,6 +6,10 @@ import org.springframework.data.domain.Page;
 import java.util.Optional;
 
 public interface IProductService {
+    Product save(Product product);
+
+    void delete(Long id);
+
     Iterable<Product> findAll();
 
     Optional<Product> findById(Long id);
@@ -14,7 +18,7 @@ public interface IProductService {
 
     Product findProductBySkuId(Long skuId);
 
-    Product save(Product product);
+    Iterable<Product> findProductByCategory(Long categoryId);
 
-    void delete(Long id);
+    Iterable<Product> findProductByOptionId(Long optionId);
 }

@@ -20,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequestMapping("/product")
 @Controller
@@ -59,7 +57,7 @@ public class ProductController {
 
     @GetMapping("/")
     public ModelAndView showList() {
-        ModelAndView modelAndView = new ModelAndView("/product/list");
+        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
         Iterable<Product> productPageable = productService.findAll();
         modelAndView.addObject("products", productPageable);
         return modelAndView;
@@ -103,6 +101,37 @@ public class ProductController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{id}")
+    public ModelAndView showDetail(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("/product/detail");
+        Product product = productService.findById(id).get();
+        List<Sku> skuList = product.getSkuList();
+
+        List<Option> sizeList = new ArrayList<>();
+        Set<Long> sizeIdList = new HashSet<>();
+
+        List<Option> colorList = new ArrayList<>();
+        Set<Long> colorIdList = new HashSet<>();
+
+        for (Sku sku : skuList) {
+            sizeIdList.add(sku.getOption(1L));
+            colorIdList.add(sku.getOption(2L));
+        }
+
+        for (Long sizeId : sizeIdList) {
+            sizeList.add(optionService.findByOptionId(sizeId).get());
+        }
+
+        for (Long colorId : colorIdList) {
+            colorList.add(optionService.findByOptionId(colorId).get());
+        }
+
+        modelAndView.addObject("product", product);
+        modelAndView.addObject("sizeList", sizeList);
+        modelAndView.addObject("colorList", colorList);
+        return modelAndView;
     }
 
     @GetMapping("/edit/{id}")
@@ -150,12 +179,6 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/findProductBySkuId/{skuId}")
-    public ResponseEntity<Product> findProductBySkuId(@PathVariable Long skuId) {
-        Product product =productService.findProductBySkuId(skuId);
-        return new ResponseEntity<>(product, HttpStatus.OK);
-    }
-
     @GetMapping("/findSkuByProductName/{productName}")
     public ResponseEntity<Iterable<Product>> findSkuByProductIdAndAndOptions(@PathVariable String productName) {
         Iterable<Product> productList = productService.findByName(productName);
@@ -166,5 +189,23 @@ public class ProductController {
     public ResponseEntity<Sku> findSkuByProductIdAndAndOptions(@PathVariable Long productId, @PathVariable Long sizeOption, @PathVariable Long colorOption) {
         Sku skuList = skuService.findByProductIdAndOptions(productId, sizeOption, colorOption);
         return new ResponseEntity<>(skuList, HttpStatus.OK);
+    }
+
+    @GetMapping("/findProductBySkuId/{skuId}")
+    public ResponseEntity<Product> findProductBySkuId(@PathVariable Long skuId) {
+        Product product =productService.findProductBySkuId(skuId);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @GetMapping("/findProductByCategory/{categoryId}")
+    public ResponseEntity<Iterable<Product>> findProductByCategory(@PathVariable Long categoryId) {
+        Iterable<Product> productList = productService.findProductByCategory(categoryId);
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    @GetMapping("/findProductByOptionId/{optionId}")
+    public ResponseEntity<Iterable<Product>> findProductByOptionId(@PathVariable Long optionId) {
+        Iterable<Product> productList = productService.findProductByOptionId(optionId);
+        return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 }

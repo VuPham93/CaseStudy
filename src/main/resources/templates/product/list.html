@@ -28,15 +28,19 @@
         <td>product price</td>
         <td>Edit</td>
         <td>Delete</td>
+        <td>add to cart</td>
     </tr>
     <th:block th:each="product:${products}">
         <tr>
-            <td th:text="${product.productName}"></td>
+            <td>
+                <a th:href="@{/product/detail/__${product.productId}__}" th:text="product.name"></a>
+            </td>
             <td th:text="${product.category.categoryName}"></td>
             <td th:text="${product.detail}"></td>
             <td th:text="${product.price}"></td>
             <td><a th:href="@{/product/edit/__${product.productId}__}">Edit</a></td>
             <td><a th:href="@{/product/delete/__${product.productId}__}">Delete</a></td>
+            <td><a th:href="@{/cart/addtocart/__${product.productId}__}">addtocart</a></td>
         </tr>
     </th:block>
 </table>

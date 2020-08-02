@@ -2,17 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/listProduct.css}">
+    <link rel="stylesheet" href="../../static/css/listProduct.css">
 
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="card bg-light mb-3" id="sidebar">
+            <form  method="post" action="/product/search" style="width:200px">
+                <input class="form-control " type="text" name="search" placeholder="Search" aria-label="Search">
+                <input type="submit" style="display: none" />
+            </form>
             <h3>CART</h3>
             <div id="cart">
                 <span class="empty">No items in cart.</span>
+                
             </div>
 
             <h3>CATEGORIES</h3>
@@ -34,58 +45,25 @@
 
         <div class="col">
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-4" th:each="product:${products}">
+                <div class="col-12 col-md-6 col-lg-3" th:each="product:${products}" style="padding-top: 20px">
                     <div class="product">
-                        <!--                            <div class="info-large">-->
-                        <!--                                <h4>FLUTED HEM DRESS</h4>-->
-                        <!--                                <div class="sku">-->
-                        <!--                                    PRODUCT SKU: <strong>89356</strong>-->
-                        <!--                                </div>-->
-
-                        <!--                                <div class="price-big">-->
-                        <!--                                    <span>$43</span> $39-->
-                        <!--                                </div>-->
-
-                        <!--                                <h3>COLORS</h3>-->
-                        <!--                                <div class="colors-large">-->
-                        <!--                                    <ul>-->
-                        <!--                                        <li><a href="" style="background:#222"><span></span></a></li>-->
-                        <!--                                        <li><a href="" style="background:#6e8cd5"><span></span></a></li>-->
-                        <!--                                        <li><a href="" style="background:#f56060"><span></span></a></li>-->
-                        <!--                                        <li><a href="" style="background:#44c28d"><span></span></a></li>-->
-                        <!--                                    </ul>-->
-                        <!--                                </div>-->
-
-                        <!--                                <h3>SIZE</h3>-->
-                        <!--                                <div class="sizes-large">-->
-                        <!--                                    <span>XS</span>-->
-                        <!--                                    <span>S</span>-->
-                        <!--                                    <span>M</span>-->
-                        <!--                                    <span>L</span>-->
-                        <!--                                    <span>XL</span>-->
-                        <!--                                    <span>XXL</span>-->
-                        <!--                                </div>-->
-
-                        <!--                                <button class="add-cart-large">Add To Cart</button>-->
-
-                        <!--                            </div>-->
                         <div class="make3D">
                             <div class="product-front">
                                 <div class="shadow"></div>
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1.jpg" alt=""/>
+                                <img th:src="@{/img/product/__${product.picture}__}"/>
                                 <div class="image_overlay"></div>
-                                <div class="add_to_cart">Add to cart</div>
-                                <div class="view_gallery">Detail</div>
+                                <div class="add_to_cart" th:value="${product.productId}">Add to cart</div>
+                                <div class="view_gallery"><a th:href="@{/product.detail/__${product.productId}__}">detail</a></div>
                                 <div class="stats">
                                     <div class="stats-container">
-                                        <!--                                            <span class="product_price">$20</span>-->
-                                        <span class="product_name" th:text="${product.productName}"></span>
-                                        <p class="productPrice" th:text="${product.price}"></p>
 
                                         <div class="product-options">
-                                            <strong>SIZES</strong>
+                                            <input type='hidden' id='productId' th:value="${product.productId}"/>
+                                            <span class="product_name" th:text="${product.productName}"></span>
+                                            <p class="productPrice" th:text="${product.price}"></p>
+                                            <span>SIZES</span>
                                             <span>XS, S, M, L, XL, XXL</span>
-                                            <strong>COLORS</strong>
+                                            <span>COLORS</span>
                                             <div class="colors">
                                                 <div class="c-blue"><span></span></div>
                                                 <div class="c-red"><span></span></div>
@@ -109,6 +87,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
+
     $(document).ready(function () {
 
         $(".largeGrid").click(function () {
@@ -243,35 +222,6 @@
                     $("body").addClass("MakeFloatingCart");
                 }, 800);
 
-                // setTimeout(function(){
-                //     $('div.floating-cart').remove();
-                //     $("body").removeClass("MakeFloatingCart");
-                //
-                //
-                //     var cartItem = "<div class='cart-item'><div class='img-wrap'><img src='"+img.src+"' alt='' /></div><span>"+productName+"</span><strong>$39</strong><div class='cart-item-border'></div><div class='delete-item'></div></div>";
-                //
-                //     $("#cart .empty").hide();
-                //     $("#cart").append(cartItem);
-                //     $("#checkout").fadeIn(500);
-                //
-                //     $("#cart .cart-item").last()
-                //         .addClass("flash")
-                //         .find(".delete-item").click(function(){
-                //         $(this).parent().fadeOut(300, function(){
-                //             $(this).remove();
-                //             if($("#cart .cart-item").size() == 0){
-                //                 $("#cart .empty").fadeIn(500);
-                //                 $("#checkout").fadeOut(500);
-                //             }
-                //         })
-                //     });
-                //     setTimeout(function(){
-                //         $("#cart .cart-item").last().removeClass("flash");
-                //     }, 10 );
-                //
-                // }, 1000);
-
-
             });
         })
 
@@ -318,6 +268,15 @@
         });
 
         $('.add_to_cart').click(function () {
+            // var productId = $('#productId').val();
+            var productId =$(this).attr("value");
+            $.ajax({
+                type: "GET",
+
+                //tên API
+                url: "/cart/addtocart/" + productId,
+            });
+
             var productCard = $(this).parent();
             var position = productCard.offset();
             var productImage = $(productCard).find('img').get(0).src;
