@@ -68,10 +68,16 @@ public class CustomerServiceImpl implements ICustomerService, UserDetailsService
         newCutomer.setName(customer.getName());
         newCutomer.setMail(customer.getMail());
         newCutomer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        newCutomer.setPassword(passwordEncoder.encode(customer.getMatchingPassword()));
         newCutomer.setAddress(customer.getAddress());
         newCutomer.setPhoneNumber(customer.getPhoneNumber());
         newCutomer.setRole(roleService.findByName("ROLE_USER"));
-            customerRepository.save(newCutomer);
+        customerRepository.save(newCutomer);
+    }
+
+    @Override
+    public void update(Customer model) {
+
     }
 
     @Override
