@@ -59,11 +59,11 @@ public class HomeController {
         return new ModelAndView("login");
     }
 
-    @GetMapping()
+    @GetMapping
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("productList", productService.findAll());
-        modelAndView.addObject("nameUser",getPrincipal());
+//        modelAndView.addObject("nameUser",getPrincipal());
         return modelAndView;
     }
 
