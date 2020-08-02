@@ -14,9 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,12 +78,16 @@ public class CartController {
     public ModelAndView listCart() {
         Cart cart = cartService.findCartByUserId(1L);
         List<Sku> skus= (List<Sku>) cart.getSkus();
-        Map<Product,Sku> productCart = new HashMap<>();
+        Map<Product, Map<String, String>> outerMap = new HashMap<>();
+        Map<String, String> innerMap = new HashMap<>();
         for (int i = 0; i < skus.size();i++){
-            productCart.put(productService.findProductBySkuId(skus.get(i).getSkuId()),skus.get(i));
+            String size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionName();
+            String color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionName();
+            innerMap.put(size,color);
+            outerMap.put(productService.findProductBySkuId(skus.get(i).getSkuId()),innerMap);
         }
         ModelAndView modelAndView = new ModelAndView("cart/cart");
-        modelAndView.addObject("productCart", productCart);
+        modelAndView.addObject("productCart", outerMap);
         modelAndView.addObject("cart", cart);
         return modelAndView;
     }

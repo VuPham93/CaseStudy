@@ -35,8 +35,11 @@
             <td th:text="${product.getKey().category.categoryName}"></td>
             <td th:text="${product.getKey().detail}"></td>
             <td th:text="${product.getKey().price}"></td>
-            <td th:text="${product.getValue().getOption(1L)}"></td>
-            <td th:text="${product.getValue().getOption(1L)}"></td>
+            <th:block th:each="option:${product.getValue()}">
+            <td th:text="${option.getKey()}"></td>
+                <td th:text="${option.getValue()}"></td>
+            </th:block>
+
 <!--            <td th:text="${product.picture}"></td>-->
             <td th:text="${cart.cartQuantity}"></td>
 <!--            <td><a th:href="@{/cart/deleteproduct/__${product.productId}__}">Delete Product</a></td>-->
