@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Customers</h1>
+<form>
+    Search by first mail:
+    <input name="search" type="text"/>
+    <input type="submit" value="Search"/>
+</form><br/>
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>PhoneNumber</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="customer : ${customers}">
+        <tr>
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.mail}"></td>
+            <td th:text="${customer.address}"></td>
+            <td th:text="${customer.phoneNumber}"></td>
+            <td><a th:href="@{/listuser/edit/__${customer.mail}__}">Edit</a></td>
+<!--            <td><a th:href="@{/delete-customer/__${customer.id}__ }">Delete</a></td>-->
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
