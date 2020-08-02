@@ -175,6 +175,12 @@ public class ProductController {
         return modelAndView;
     }
 
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return "redirect:/product/";
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Product> delete(@PathVariable Long id) {
         productService.delete(id);

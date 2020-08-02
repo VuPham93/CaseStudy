@@ -1,18 +1,16 @@
-let pictureName = $("#productPicture").val();
-
-let loadFile = function(event) {
+function loadFile(event) {
     let output = document.getElementById('output');
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
         URL.revokeObjectURL(output.src)
     }
-    changePicture();
-};
+}
 
 function changePicture() {
     let image = $("#file-upload")[0].files[0];
     let file = new FormData();
     file.append('image', image);
+    document.getElementById("productPicture").value = image.name;
 
     $.ajax({
         url: "/product/img-upload",
@@ -23,14 +21,12 @@ function changePicture() {
         contentType: false,
         cache: false,
         success: function (res) {
-            console.log(res);
+            editProduct();
         },
         error: function (err) {
             console.error(err);
         }
     });
-
-    pictureName = image.name;
 }
 
 function addOption() {
@@ -102,6 +98,7 @@ function editProduct() {
     let categoryId = $("#categoryId").val();
     let detail = $("#detail").val();
     let price = $("#price").val();
+    let picture = $("#productPicture").val();
 
     let json = {
         "productId": productId,
@@ -112,7 +109,7 @@ function editProduct() {
         "category": {
             "categoryId": categoryId
         },
-        "picture": pictureName,
+        "picture": picture,
     };
 
     $.ajax({
