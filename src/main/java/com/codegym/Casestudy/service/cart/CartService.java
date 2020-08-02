@@ -1,14 +1,14 @@
 package com.codegym.Casestudy.service.cart;
 
 import com.codegym.Casestudy.model.Cart;
-import com.codegym.Casestudy.repository.CartRepository;
+import com.codegym.Casestudy.repository.ICartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CartService implements ICartService {
     @Autowired
-    CartRepository cartRepository;
+    ICartRepository cartRepository;
 
     @Override
     public Iterable<Cart> findAll() {

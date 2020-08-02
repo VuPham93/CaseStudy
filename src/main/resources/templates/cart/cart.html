@@ -21,21 +21,25 @@
         <td>Product category</td>
         <td>Product detail</td>
         <td>product price</td>
+        <td>product size</td>
+        <td>product color</td>
 <!--        <td>product picture</td>-->
         <td>product quantity</td>
         <td>Delete Product</td>
 
     </tr>
-    <th:block th:each="product:${products}">
+    <th:block th:each="product:${productCart}">
         <tr>
             <td th:text="${cart.userId}"></td>
-            <td th:text="${product.productName}"></td>
-            <td th:text="${product.category.categoryName}"></td>
-            <td th:text="${product.detail}"></td>
-            <td th:text="${product.price}"></td>
+            <td th:text="${product.getKey().productName}"></td>
+            <td th:text="${product.getKey().category.categoryName}"></td>
+            <td th:text="${product.getKey().detail}"></td>
+            <td th:text="${product.getKey().price}"></td>
+            <td th:text="${product.getValue().getOption(1L)}"></td>
+            <td th:text="${product.getValue().getOption(1L)}"></td>
 <!--            <td th:text="${product.picture}"></td>-->
             <td th:text="${cart.cartQuantity}"></td>
-            <td><a th:href="@{/cart/deleteproduct/__${product.productId}__}">Delete Product</a></td>
+<!--            <td><a th:href="@{/cart/deleteproduct/__${product.productId}__}">Delete Product</a></td>-->
         </tr>
     </th:block>
 </table>

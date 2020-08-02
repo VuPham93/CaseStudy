@@ -150,10 +150,13 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/findSkuByProductName/{productName}")
-    public ResponseEntity<Iterable<Product>> findSkuByProductIdAndAndOptions(@PathVariable String productName) {
-        Iterable<Product> productList = productService.findByName(productName);
-        return new ResponseEntity<>(productList, HttpStatus.OK);
+    @PostMapping("/findSkuByProductName")
+    public ModelAndView findSkuByProductName(@RequestParam("search") String search) {
+        Iterable<Product> products = productService.findByName(search);
+        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        modelAndView.addObject("products",products);
+
+        return modelAndView;
     }
 
     @GetMapping("/findSkuByProductIdAndOptions/{productId}/{sizeOption}/{colorOption}")
@@ -168,10 +171,13 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/findProductByCategory/{categoryId}")
-    public ResponseEntity<Iterable<Product>> findProductByCategory(@PathVariable Long categoryId) {
-        Iterable<Product> productList = productService.findProductByCategory(categoryId);
-        return new ResponseEntity<>(productList, HttpStatus.OK);
+    @GetMapping("/findProductByCategory")
+    public ModelAndView findProductByCategory(@RequestParam(value="category", required=true) String category) {
+        Category category1 = categoryService.findCategoryByCategoryName(category);
+        Iterable<Product> productList = productService.findProductByCategory(category1.getCategoryId());
+        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        modelAndView.addObject("products",productList);
+        return modelAndView;
     }
 
     @GetMapping("/findProductByOptionId/{optionId}")
