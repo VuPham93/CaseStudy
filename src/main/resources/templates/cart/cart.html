@@ -2,50 +2,182 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List</title>
+    <title>Giỏ hàng</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--    <link rel="stylesheet" href="resources\static\cart.css">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-cart.css}">
 </head>
 <body>
-<!--<p th:text="${message}?:${message}"></p>-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <table class="table table-hover shopping-cart-wrap">
+                    <thead class="text-muted">
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col" width="120">Quantity</th>
+                        <th scope="col" width="120">Price</th>
+                        <th scope="col" width="200" class="text-right">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="product:${productCart}">
+                        <tr>
+                            <td>
+                                <figure class="media">
+                                    <div class="img-wrap"><img th:src="@{/img/product/__${product.getKey().picture}__}"
+                                                               class="img-thumbnail img-sm"></div>
+                                    <figcaption class="media-body">
+                                        <h6 class="title text-truncate" th:text="${product.getKey().productName}"></h6>
+                                        <dl class="param param-inline small">
+                                            <dt>Size:</dt>
+                                            <th:block th:each="option:${product.getValue()}">
+                                                <dd th:text="${option.getKey()}"></dd>
+                                            </th:block>
 
-<form>
-    Search by first name:
-    <input name="s" type="text"/>
-    <input type="submit" value="Search"/>
-</form>
-<br/>
-<H3>List cart</H3>
-<table border="1">
-    <tr>
-        <td>User Id</td>
-        <td>Product name</td>
-        <td>Product category</td>
-        <td>Product detail</td>
-        <td>product price</td>
-        <td>product size</td>
-        <td>product color</td>
-<!--        <td>product picture</td>-->
-        <td>product quantity</td>
-        <td>Delete Product</td>
+                                        </dl>
+                                        <dl class="param param-inline small">
+                                            <dt>Color:</dt>
+                                            <th:block th:each="option:${product.getValue()}">
+                                                <dd th:text="${option.getValue()}"></dd>
+                                            </th:block>
+                                        </dl>
+                                    </figcaption>
+                                </figure>
+                            </td>
+                            <td>
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="price-wrap">
+                                    <var class="price" th:text="${product.getKey().price}"></var>
+                                    <!--                        <small class="text-muted">(USD5 each)</small>-->
+                                </div> <!-- price-wrap .// -->
+                            </td>
+                            <td class="text-right">
+                                <a title="" href="" class="btn btn-outline-success" data-toggle="tooltip"
+                                   data-original-title="Save to Wishlist"> <i class="fa fa-heart"></i></a>
+                                <a th:href="/cart/deleteproduct/" class="btn btn-outline-danger">Remove</a>
+                                <!--                        <a href="" class="deleteProduct" >Remove</a>-->
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div> <!-- card.// -->
+        </div>
 
-    </tr>
-    <th:block th:each="product:${productCart}">
-        <tr>
-            <td th:text="${cart.userId}"></td>
-            <td th:text="${product.getKey().productName}"></td>
-            <td th:text="${product.getKey().category.categoryName}"></td>
-            <td th:text="${product.getKey().detail}"></td>
-            <td th:text="${product.getKey().price}"></td>
-            <th:block th:each="option:${product.getValue()}">
-            <td th:text="${option.getKey()}"></td>
-                <td th:text="${option.getValue()}"></td>
-            </th:block>
+        <div class="col-lg-4">
 
-<!--            <td th:text="${product.picture}"></td>-->
-            <td th:text="${cart.cartQuantity}"></td>
-<!--            <td><a th:href="@{/cart/deleteproduct/__${product.productId}__}">Delete Product</a></td>-->
-        </tr>
-    </th:block>
-</table>
+            <!-- Card -->
+            <div class="mb-3">
+                <div class="pt-4">
 
+                    <h5 class="mb-3">The total amount of</h5>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                            Temporary amount
+                            <span th:text="${totalPrice}" id="totalPrice1"></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            Shipping
+                            <span>Free</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                            <div>
+                                <strong>The total amount of</strong>
+                                <strong>
+                                    <p class="mb-0">(including VAT)</p>
+                                </strong>
+                            </div>
+                            <span id="totalPrice2" th:text="${totalPrice}" style="font-weight: bold"></span>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="btn btn-primary btn-block">Go to checkout</button>
+
+                </div>
+            </div>
+            <!-- Card -->
+
+            <!-- Card -->
+            <div class="mb-3">
+                <div class="pt-4">
+
+                    <a class="dark-grey-text d-flex justify-content-between" data-toggle="collapse"
+                       href="#collapseExample"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        Add a discount code (optional)
+                        <span><i class="fas fa-chevron-down pt-1"></i></span>
+                    </a>
+                    <h5 class="mb-4">We accept</h5>
+
+                    <img class="mr-2" width="45px"
+                         src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                         alt="Visa">
+                    <img class="mr-2" width="45px"
+                         src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                         alt="American Express">
+                    <img class="mr-2" width="45px"
+                         src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                         alt="Mastercard">
+                    <img class="mr-2" width="45px"
+                         src="https://mdbootstrap.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png"
+                         alt="PayPal acceptance mark">
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="mt-3">
+                            <div class="md-form md-outline mb-0">
+                                <input type="text" id="discount-code" class="form-control font-weight-light"
+                                       placeholder="Enter discount code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card -->
+
+        </div>
+        <!--Grid column-->
+
+    </div>
+    </div>
+</div>
+<!--payment-->
+
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        //sư kiện nào thực hiện Ajax-->
+<!--        $('.btn-outline-danger').click(function (event) {-->
+<!--            //lay du lieu-->
+<!--            let a = $(this);-->
+<!--            let idClass = a.attr("href");-->
+<!--            // goi ajax-->
+<!--            $.ajax({-->
+<!--                type: "GET",-->
+<!--                //tên API-->
+<!--                url: "/cart/",-->
+<!--                //xử lý khi thành công-->
+<!--                success: function () {-->
+<!--                    a.parent().parent().remove();-->
+
+<!--                }-->
+
+<!--            });-->
+<!--            //chặn sự kiện mặc định của thẻ-->
+<!--            event.preventDefault();-->
+<!--        });-->
+<!--    })-->
+<!--</script>-->
 </body>
 </html>
