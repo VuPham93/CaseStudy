@@ -20,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequestMapping("/product")
 @Controller
@@ -103,6 +101,37 @@ public class ProductController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{id}")
+    public ModelAndView showDetail(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("/product/detail");
+        Product product = productService.findById(id).get();
+        List<Sku> skuList = product.getSkuList();
+
+        List<Option> sizeList = new ArrayList<>();
+        Set<Long> sizeIdList = new HashSet<>();
+
+        List<Option> colorList = new ArrayList<>();
+        Set<Long> colorIdList = new HashSet<>();
+
+        for (Sku sku : skuList) {
+            sizeIdList.add(sku.getOption(1L));
+            colorIdList.add(sku.getOption(2L));
+        }
+
+        for (Long sizeId : sizeIdList) {
+            sizeList.add(optionService.findByOptionId(sizeId).get());
+        }
+
+        for (Long colorId : colorIdList) {
+            colorList.add(optionService.findByOptionId(colorId).get());
+        }
+
+        modelAndView.addObject("product", product);
+        modelAndView.addObject("sizeList", sizeList);
+        modelAndView.addObject("colorList", colorList);
+        return modelAndView;
     }
 
     @GetMapping("/edit/{id}")
