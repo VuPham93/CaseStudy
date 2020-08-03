@@ -91,7 +91,7 @@
             <ul class="navbar-nav ml-auto">
                 <!--User-->
 <!--                <li class="nav-item">-->
-                    <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i><span sec:authorize acess="hasRole('USER')" th:text="${nameUser}"></span></a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}"></span></a>
 <!--                </li>-->
 
                 <!--Cart-->
