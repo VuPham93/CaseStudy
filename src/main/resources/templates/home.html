@@ -18,7 +18,7 @@
     <!--TOP NAVIGATION BAR-->
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
         <!--Logo-->
-        <a class="navbar-brand pb-2" href="#">
+        <a class="navbar-brand pb-2" th:href="@{/home/}">
             <img th:src="@{/img/logo.png}" height="30" width="110"/>
         </a>
 
@@ -70,12 +70,12 @@
             <ul class="navbar-nav ml-auto">
                 <!--User-->
 <!--                <li class="nav-item">-->
-                    <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}"></span></a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}" style="font-weight: bold"></span></a>
 <!--                </li>-->
 
                 <!--Cart-->
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/cart/}"><i class="fas fa-shopping-cart"></i> CART</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/cart/}"><i class="fas fa-shopping-cart"></i> CART</a>
                 </li>
 
                 <!--Sign out-->
@@ -93,16 +93,16 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Top for this month</a>
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Shirt')}">Top for this month</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Our featured picks</a>
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Dress')}">Our featured picks</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Summer collection</a>
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Trousers')}">Summer collection</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Autumn choice</a>
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Bikini')}">Autumn choice</a>
                     </li>
                 </ul>
 

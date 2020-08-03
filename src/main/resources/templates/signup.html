@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 </head>
 <body th:style="'background: url(/img/background2.jpg) no-repeat center center fixed;'">
+
 <!--CONTENT-->
 <div class="login-form">
     <!--Go back-->
@@ -34,7 +35,7 @@
             <p>Name :</p>
             <input
                     type="text"
-                    placeholder="Nhập tên"
+                    placeholder="Enter name"
                     th:field="*{name}"
             >
         </div>
@@ -48,7 +49,7 @@
             <input type="text"
                    placeholder=""
                    pattern="^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]{0,10})*@[A-Za-z0-9]+(\.[A-Za-z0-9]{0,10})*(\.[A-Za-z]{0,5})$"
-                   title="Email ko hợp lệ"
+                   title="The email is not valid"
                    th:field="*{mail}"
                    >
         </div>
@@ -60,9 +61,9 @@
         <div class="textbox">
             <p>Password</p>
             <input type="password"
-                   placeholder="Passwords must be at least 6 characters,up to 16 characters."
+                   placeholder="Passwords must be at least 6 characters,up to 12 characters."
                    pattern="[a-z0-9_-]{6,12}$"
-                   title="Mật khẩu gồm chữ thường và số từ 6 đến 12 kí tự"
+                   title="Passwords must be at least 6 characters,up to 12 characters."
                    th:field="*{password}" >
         </div>
         <div style="height: 15px">
@@ -80,7 +81,7 @@
         <div class="textbox">
             <p>Address</p>
             <input type="text"
-                   placeholder=""
+                   placeholder="Enter address"
                    th:field="*{address}" >
         </div>
         <div style="height: 15px">
@@ -91,9 +92,9 @@
         <div class="textbox">
             <p>Phone Number</p>
             <input type="text"
-                   placeholder=""
+                   placeholder="Enter phone number"
                    pattern="(08|09|01[2|6|8|9])+([0-9]{8})\b"
-                   title="Số điện thoại không hợp lệ"
+                   title="The phone is not valid"
                    th:field="*{phoneNumber}"
                    >
         </div>
@@ -102,7 +103,7 @@
         </div>
 
         <div style="height: 15px">
-            <th:block th:if="${message}"><p th:text="${message}"></p></th:block>
+            <th:block th:if="${message}"><p th:text="${message}" style="color: green; text-align: center"></p></th:block>
         </div>
 
         <input type="submit" value="Sign Up" class="signUp-btn" disabled>

@@ -36,6 +36,7 @@ public class HomeController {
     @Autowired
     IRoleService roleService;
 
+
     private String getPrincipal(){
         String mail = null;
         String userName = null;

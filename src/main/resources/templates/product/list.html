@@ -1,18 +1,109 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/listProduct.css}">
-<!--    <link rel="stylesheet" href="../../static/css/style-list-product.css">-->
+
+
 
 </head>
 <body>
+<!--HEADER-->
+<header>
+    <!--TOP NAVIGATION BAR-->
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <!--Logo-->
+        <a class="navbar-brand pb-2" th:href="@{/home/}">
+            <img th:src="@{/img/logo.png}" height="30" width="110"/>
+        </a>
+
+        <!--Navigation bar toggle-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!--Navigation button-->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <!--Left button-->
+            <ul class="navbar-nav mr-auto">
+                <!--Shop-->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/product/}">SHOP</a>
+                </li>
+
+                <!--Product-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" th:href="@{/product/}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PRODUCT</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Shirt')}">SHIRT</a></li>
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Dress')}">DRESS</a></li>
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Trousers')}">TROUSERS</a></li>
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Bikini')}">BIKINI</a></li>
+
+                    </ul>
+                </li>
+
+                <!--About-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="navbarDropdownAboutLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ABOUT US</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownAboutLink">
+                        <li><a class="dropdown-item" href="#">Contact</a></li>
+                        <li><a class="dropdown-item" href="#">Store</a></li>
+                        <li><a class="dropdown-item" href="#">History</a></li>
+                        <li><a class="dropdown-item" href="#">Vision</a></li>
+                        <li><a class="dropdown-item" href="#">Our brands</a></li>
+                    </ul>
+                </li>
+
+                <!--Help-->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">HELP</a>
+                </li>
+            </ul>
+
+            <!--Right button-->
+            <ul class="navbar-nav ml-auto">
+                <!--User-->
+                <!--                <li class="nav-item">-->
+                <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}" style="font-weight: bold"></span></a>
+                <!--                </li>-->
+
+                <!--Cart-->
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/cart/}"><i class="fas fa-shopping-cart"></i> CART</a>
+                </li>
+
+                <!--Sign out-->
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" href="/home/logout">SIGN OUT</a>
+                    <a class="nav-link" sec:authorize="isAnonymous()" href="/home/login">SIGN IN</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--2ND NAVIGATION BAR-->
+    <div>
+        <nav class="navbar navbar-expand-md navbar-light mx-lg-5 pb-3">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link" th:href="@{/product/create}">Add new product</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+</header>
+<!--END OF HEADER-->
 <div class="container">
     <div class="row">
         <div class="card bg-light mb-3" id="sidebar">
@@ -48,7 +139,7 @@
                                 <img th:src="@{/img/product/__${product.picture}__}"/>
                                 <div class="image_overlay"></div>
                                 <div class="add_to_cart" th:value="${product.productId}">Add to cart</div>
-                                <div class="view_gallery"><a th:href="@{/product.detail/__${product.productId}__}">detail</a></div>
+                                <div class="view_gallery"><a th:href="@{/product/detail/__${product.productId}__}">detail</a></div>
                                 <div class="stats">
                                     <div class="stats-container">
 

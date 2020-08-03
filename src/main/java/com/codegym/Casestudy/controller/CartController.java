@@ -76,27 +76,35 @@ public class CartController {
     @GetMapping("/")
     public ModelAndView listCart(@ModelAttribute("userIdLogin") Long userIdLogin) {
         Cart cart = cartService.findCartByUserId(userIdLogin);
-        List<Sku> skus= (List<Sku>) cart.getSkus();
-        Map<Product, Map<Long, Long>> outerMap = new HashMap<>();
-        double totalPrice = 0;
-        for (int i = 0; i < skus.size();i++){
-            Map<Long, Long> innerMap = new HashMap<>();
-            Long size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionId();
-            Long color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionId();
-            innerMap.put(size,color);
-            outerMap.put(productService.findProductBySkuId(skus.get(i).getSkuId()),innerMap);
-            totalPrice+=productService.findProductBySkuId(skus.get(i).getSkuId()).getPrice();
+        ModelAndView modelAndView;
+        if (cart!= null){
+            List<Sku> skus= (List<Sku>) cart.getSkus();
+            Map<Product, Map<Long, Long>> outerMap = new HashMap<>();
+            double totalPrice = 0;
+            for (int i = 0; i < skus.size();i++){
+                Map<Long, Long> innerMap = new HashMap<>();
+                Long size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionId();
+                Long color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionId();
+                innerMap.put(size,color);
+                outerMap.put(productService.findProductBySkuId(skus.get(i).getSkuId()),innerMap);
+                totalPrice+=productService.findProductBySkuId(skus.get(i).getSkuId()).getPrice();
+            }
+             modelAndView = new ModelAndView("cart/cart");
+            modelAndView.addObject("productCart", outerMap);
+            modelAndView.addObject("cart", cart);
+            modelAndView.addObject("totalPrice", totalPrice);
+        }else {
+
+             modelAndView = new ModelAndView("redirect:/home");
+
         }
-        ModelAndView modelAndView = new ModelAndView("cart/cart");
-        modelAndView.addObject("productCart", outerMap);
-        modelAndView.addObject("cart", cart);
-        modelAndView.addObject("totalPrice", totalPrice);
+
         return modelAndView;
     }
 
     @DeleteMapping("/delete-product/{productId}/{sizeOption}/{colorOption}")
-    public ResponseEntity<Double> deleteProduct(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption, @PathVariable("colorOption") Long colorOption){
-        Cart cart = cartService.findCartByUserId(1L);
+    public ResponseEntity<Double> deleteProduct(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption, @PathVariable("colorOption") Long colorOption,@ModelAttribute("userIdLogin") Long userIdLogin){
+        Cart cart = cartService.findCartByUserId(userIdLogin);
         List<Sku> skus = (List<Sku>) cart.getSkus();
         skus.remove(skuService.findByProductIdAndOptions(productId,sizeOption,colorOption));
         cart.setSkus(skus);

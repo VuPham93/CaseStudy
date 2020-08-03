@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Giỏ hàng</title>
@@ -9,8 +10,118 @@
     <!--    <link rel="stylesheet" href="resources\static\cart.css">-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style-cart.css}">
+
 </head>
 <body>
+<!--HEADER-->
+<header>
+    <!--TOP NAVIGATION BAR-->
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <!--Logo-->
+        <a class="navbar-brand pb-2" th:href="@{/home/}">
+            <img th:src="@{/img/logo.png}" height="30" width="110"/>
+        </a>
+
+        <!--Navigation bar toggle-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!--Navigation button-->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <!--Left button-->
+            <ul class="navbar-nav mr-auto">
+                <!--Shop-->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/product/}">SHOP</a>
+                </li>
+
+                <!--Product-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" th:href="@{/product/}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PRODUCT</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Shirt')}">SHIRT</a></li>
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Dress')}">DRESS</a></li>
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Trousers')}">TROUSERS</a></li>
+                        <li><a class="dropdown-item" th:href="@{/product/findProductByCategory(category='Bikini')}">BIKINI</a></li>
+
+                    </ul>
+                </li>
+
+                <!--About-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="navbarDropdownAboutLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ABOUT US</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownAboutLink">
+                        <li><a class="dropdown-item" href="#">Contact</a></li>
+                        <li><a class="dropdown-item" href="#">Store</a></li>
+                        <li><a class="dropdown-item" href="#">History</a></li>
+                        <li><a class="dropdown-item" href="#">Vision</a></li>
+                        <li><a class="dropdown-item" href="#">Our brands</a></li>
+                    </ul>
+                </li>
+
+                <!--Help-->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">HELP</a>
+                </li>
+            </ul>
+
+            <!--Right button-->
+            <ul class="navbar-nav ml-auto">
+                <!--User-->
+                <!--                <li class="nav-item">-->
+                <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}" style="font-weight: bold"></span></a>
+                <!--                </li>-->
+
+                <!--Cart-->
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/cart/}"><i class="fas fa-shopping-cart"></i> CART</a>
+                </li>
+
+                <!--Sign out-->
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" href="/home/logout">SIGN OUT</a>
+                    <a class="nav-link" sec:authorize="isAnonymous()" href="/home/login">SIGN IN</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--2ND NAVIGATION BAR-->
+    <div>
+        <nav class="navbar navbar-expand-md navbar-light mx-lg-5 pb-3">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Shirt')}">Top for this month</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Dress')}">Our featured picks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Trousers')}">Summer collection</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/product/findProductByCategory(category='Bikini')}">Autumn choice</a>
+                    </li>
+                </ul>
+
+                <!--Search bar-->
+                <form class="form-inline ml-auto" method="post" th:action="@{/product/findSkuByProductName}">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-light border-0" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                        <!--                        <input type="text" class="form-control bg-light border-0" placeholder="Find something..." aria-label="find" aria-describedby="basic-addon1" name="find" id="find">-->
+                        <input class="form-control bg-light border-0" type="text" name="search" placeholder="Search" aria-label="Search">
+                        <input type="submit" style="display: none" />
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
+</header>
+<!--END OF HEADER-->
 <div class="container">
     <div class="row">
         <div class="col-lg-8">
@@ -26,7 +137,7 @@
                     </thead>
                     <tbody>
                     <th:block th:each="product:${productCart}">
-                        <tr class="parentCart">
+                        <tr>
                             <td>
                                 <figure class="media">
                                     <div class="img-wrap"><img th:src="@{/img/product/__${product.getKey().picture}__}" class="img-thumbnail img-sm"></div>
@@ -170,11 +281,10 @@
 <script>
     $(document).ready(function () {
         $('.btn-outline-danger').click(function (event) {
-
             let a = $(this);
-            let productId = $('.parentCart .productId').val();
-            let sizeOptionId = $('.parentCart .sizeId').val();
-            let colorOptionId = $('.parentCart .colorId').val();
+            let productId = a.closest('tr').find('.productId').val();
+            let sizeOptionId = a.closest('tr').find('.sizeId').val();
+            let colorOptionId = a.closest('tr').find('.colorId').val();
 
             $.ajax({
                 type: "DELETE",

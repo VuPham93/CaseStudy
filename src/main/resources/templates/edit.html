@@ -9,6 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 </head>
 <body th:style="'background: url(/img/background2.jpg) no-repeat center center fixed;'">
+<!--HEADER-->
+
 <!--CONTENT-->
 <div class="login-form">
     <!--Go back-->
@@ -34,7 +36,7 @@
             <p>Name :</p>
             <input
                     type="text"
-                    placeholder="Nhập tên"
+                    placeholder="Enter name"
                     th:field="*{name}"
             >
             <input th:type="hidden" name="id" th:field="*{id}">
@@ -47,7 +49,7 @@
         <div class="textbox">
             <p>Mail</p>
             <input type="text"
-                   placeholder=""
+                   placeholder="enter email"
                    th:field="*{mail}"
             >
         </div>
@@ -59,7 +61,7 @@
         <div class="textbox">
             <p>Password</p>
             <input type="password"
-                   placeholder="Passwords must be at least 6 characters,up to 16 characters."
+                   placeholder="Passwords must be at least 6 characters,up to 12 characters."
                    th:field="*{password}" >
         </div>
         <div style="height: 20px">

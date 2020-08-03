@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -89,18 +90,19 @@
             <!--Right button-->
             <ul class="navbar-nav ml-auto">
                 <!--User-->
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i> USER</a>
-                </li>
+                <!--                <li class="nav-item">-->
+                <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}" style="font-weight: bold"></span></a>
+                <!--                </li>-->
 
                 <!--Cart-->
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> CART</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/cart/}"><i class="fas fa-shopping-cart"></i> CART</a>
                 </li>
 
                 <!--Sign out-->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">SIGN OUT</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" href="/home/logout">SIGN OUT</a>
+                    <a class="nav-link" sec:authorize="isAnonymous()" href="/home/login">SIGN IN</a>
                 </li>
             </ul>
         </div>
@@ -111,27 +113,29 @@
         <nav class="navbar navbar-expand-md navbar-light mx-lg-5 pb-3">
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link"  th:href="@{/product/}">Product list</a>
-                    </li>
-                    <li class="nav-item">
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link"  th:href="@{/product/}">Product list</a>-->
+<!--                    </li>-->
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" th:href="@{/product/create}">Add new product</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" th:href="@{/product/edit/__${product.productId}__}">Edit product</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" th:href="@{/product/delete/__${product.productId}__}">Delete product</a>
                     </li>
                 </ul>
 
                 <!--Search bar-->
-                <form class="form-inline ml-auto" action="#" method="post">
+                <form class="form-inline ml-auto" method="post" th:action="@{/product/findSkuByProductName}">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-light border-0" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
-                        <input type="text" class="form-control bg-light border-0" placeholder="Find something..." aria-label="find" aria-describedby="basic-addon1" name="find" id="find">
+                        <!--                        <input type="text" class="form-control bg-light border-0" placeholder="Find something..." aria-label="find" aria-describedby="basic-addon1" name="find" id="find">-->
+                        <input class="form-control bg-light border-0" type="text" name="search" placeholder="Search" aria-label="Search">
+                        <input type="submit" style="display: none" />
                     </div>
                 </form>
             </div>
