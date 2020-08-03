@@ -52,10 +52,15 @@ public class HomeController {
         return new ModelAndView("login");
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/home/login";
+    }
+
     @GetMapping()
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject("nameUser",getPrincipal());
+//            modelAndView.addObject("nameUser",getPrincipal());
         return modelAndView;
     }
 
@@ -118,6 +123,8 @@ public class HomeController {
         modelAndView.addObject("message", "Customer updated successfully");
         return modelAndView;
     }
+
+
 
 }
 
