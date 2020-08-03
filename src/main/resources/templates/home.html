@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -17,7 +18,7 @@
     <!--TOP NAVIGATION BAR-->
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
         <!--Logo-->
-        <a class="navbar-brand pb-2" th:href="@{/home}">
+        <a class="navbar-brand pb-2" href="#">
             <img th:src="@{/img/logo.png}" height="30" width="110"/>
         </a>
 
@@ -68,9 +69,9 @@
             <!--Right button-->
             <ul class="navbar-nav ml-auto">
                 <!--User-->
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}"></span></a>
-                </li>
+<!--                <li class="nav-item">-->
+                    <a sec:authorize="isAuthenticated()" class="nav-link" href="/home/edit"><i class="fa fa-user" aria-hidden="true"></i><span th:text="${nameUser}"></span></a>
+<!--                </li>-->
 
                 <!--Cart-->
                 <li class="nav-item">
@@ -79,7 +80,8 @@
 
                 <!--Sign out-->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">SIGN OUT</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" href="/home/logout">SIGN OUT</a>
+                    <a class="nav-link" sec:authorize="isAnonymous()" href="/home/login">SIGN IN</a>
                 </li>
             </ul>
         </div>
@@ -152,25 +154,83 @@
         <p class="display-4">New Collection</p>
         <section class="hero-section">
             <div class="card-grid">
-                <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
-                    <div class="card__background">
-                        <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
-                    </div>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien1.jpg)'"></div>
                     <div class="card__content">
-                        <p class="card__category" th:text="${product.category.categoryName}"></p>
-                    </div>
-                    <div class="card__content d-flex align-items-end" style="height: 100%">
+<!--                        <p class="card__category">Category</p>-->
                         <h3 class="card__heading">
-                            <p th:text="${product.productName}"></p>
+                            <p>Váy Dạ </p>
                             <table class="text-white">
                                 <tr>
-                                    <td style="width: 100px" rowspan="2">
-                                        <button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button>
-                                    </td>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
                                     <td>
-                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through">
-                                            <small th:text="${product.price}"></small>
-                                        </h6>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien2.jpg)'"></div>
+                   <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Váy Vằn</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien3.jpg)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Váy Trắng</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien4.jpg)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Váy Body</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
                                     </td>
                                 </tr>
                                 <tr>
@@ -188,28 +248,86 @@
 
     <!--Summer sale-->
     <div class="mx-lg-5 px-lg-4 mt-5 py-2">
-        <p class="display-4">New Collection</p>
+        <p class="display-4">Summer Sale</p>
         <section class="hero-section">
             <div class="card-grid">
-                <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
-                    <div class="card__background">
-                        <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
-                    </div>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien5.jpg)'"></div>
                     <div class="card__content">
-                        <p class="card__category" th:text="${product.category.categoryName}"></p>
-                    </div>
-                    <div class="card__content d-flex align-items-end" style="height: 100%">
+<!--                        <p class="card__category">Category</p>-->
                         <h3 class="card__heading">
-                            <p th:text="${product.productName}"></p>
+                            <p>Váy Voan</p>
                             <table class="text-white">
                                 <tr>
-                                    <td style="width: 100px" rowspan="2">
-                                        <button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button>
-                                    </td>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
                                     <td>
-                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through">
-                                            <small th:text="${product.price}"></small>
-                                        </h6>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien8.png)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Váy trắng</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien10.jpg)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Váy hồng</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien11.jpg)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Váy Ren</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
                                     </td>
                                 </tr>
                                 <tr>
@@ -227,28 +345,86 @@
 
     <!--Best selling-->
     <div class="mx-lg-5 px-lg-4 mt-5 py-2">
-        <p class="display-4">New Collection</p>
+        <p class="display-4">Best Selling</p>
         <section class="hero-section">
             <div class="card-grid">
-                <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
-                    <div class="card__background">
-                        <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
-                    </div>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien16.png)'"></div>
                     <div class="card__content">
-                        <p class="card__category" th:text="${product.category.categoryName}"></p>
-                    </div>
-                    <div class="card__content d-flex align-items-end" style="height: 100%">
+<!--                        <p class="card__category">Category</p>-->
                         <h3 class="card__heading">
-                            <p th:text="${product.productName}"></p>
+                            <p>Bikini Xám</p>
                             <table class="text-white">
                                 <tr>
-                                    <td style="width: 100px" rowspan="2">
-                                        <button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button>
-                                    </td>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
                                     <td>
-                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through">
-                                            <small th:text="${product.price}"></small>
-                                        </h6>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien17.png)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Bikini Hoa</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien18.png)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Bikini Đen</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text font-weight-light">$80</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h3>
+                    </div>
+                </a>
+                <a class="cardZoom" href="#">
+                    <div class="card__background" th:style="'background: url(/img/product/spdaidien19.png)'"></div>
+                    <div class="card__content">
+<!--                        <p class="card__category">Category</p>-->
+                        <h3 class="card__heading">
+                            <p>Bikini Xanh</p>
+                            <table class="text-white">
+                                <tr>
+                                    <td style="width: 100px" rowspan="2"><button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button></td>
+                                    <td>
+                                        <h6 class="card-text font-weight-light" style="text-decoration: line-through"><small>$100</small></h6>
                                     </td>
                                 </tr>
                                 <tr>

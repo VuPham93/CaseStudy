@@ -1,6 +1,8 @@
 package com.codegym.Casestudy.controller;
 
-import com.codegym.Casestudy.model.*;
+import com.codegym.Casestudy.model.Cart;
+import com.codegym.Casestudy.model.Product;
+import com.codegym.Casestudy.model.Sku;
 import com.codegym.Casestudy.service.cart.ICartService;
 import com.codegym.Casestudy.service.customer.ICustomerService;
 import com.codegym.Casestudy.service.option.IOptionService;
@@ -34,15 +36,6 @@ public class CartController {
     IOptionService optionService;
     @Autowired
     ICustomerService customerService;
-    @ModelAttribute("sizes")
-    public Iterable<Option> sizes() {
-        return optionService.findByOptionGroup(1L);
-    }
-
-    @ModelAttribute("colors")
-    public Iterable<Option> colors() {
-        return optionService.findByOptionGroup(2L);
-    }
     @ModelAttribute("userIdLogin")
     public Long userIdLogin(){
         String mail = null;
@@ -60,8 +53,7 @@ public class CartController {
 
 
     @GetMapping("/addtocart/{productId}/{sizeOption}/{colorOption}")
-    public ResponseEntity<Sku> addToCart(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption,
-      @PathVariable("colorOption") Long colorOption,@ModelAttribute("userIdLogin") Long userIdLogin) {
+    public ResponseEntity<Sku> addToCart(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption, @PathVariable("colorOption") Long colorOption,@ModelAttribute("userIdLogin") Long userIdLogin) {
         Cart cart = cartService.findCartByUserId(userIdLogin);
         if (cart != null) {
             List<Sku> skus = (List<Sku>) cart.getSkus();
@@ -72,6 +64,7 @@ public class CartController {
         } else {
             Cart cart1 = new Cart(userIdLogin);
             List<Sku> skus = new ArrayList<>();
+
             skus.add(skuService.findByProductIdAndOptions(productId,sizeOption,colorOption));
             cart1.setSkus(skus);
             cart1.setCartQuantity(1);
@@ -85,7 +78,6 @@ public class CartController {
         Cart cart = cartService.findCartByUserId(userIdLogin);
         List<Sku> skus= (List<Sku>) cart.getSkus();
         Map<Product, Map<Long, Long>> outerMap = new HashMap<>();
-
         double totalPrice = 0;
         for (int i = 0; i < skus.size();i++){
             Map<Long, Long> innerMap = new HashMap<>();
@@ -102,15 +94,17 @@ public class CartController {
         return modelAndView;
     }
 
-    @GetMapping("/deleteproduct/{productId}/{sizeOption}/{colorOption}")
-    public ModelAndView deleteProduct(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption,
-                                  @PathVariable("colorOption") Long colorOption){
+    @DeleteMapping("/delete-product/{productId}/{sizeOption}/{colorOption}")
+    public ResponseEntity<Double> deleteProduct(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption, @PathVariable("colorOption") Long colorOption){
         Cart cart = cartService.findCartByUserId(1L);
         List<Sku> skus = (List<Sku>) cart.getSkus();
         skus.remove(skuService.findByProductIdAndOptions(productId,sizeOption,colorOption));
         cart.setSkus(skus);
         cartService.save(cart);
-        ModelAndView modelAndView = new ModelAndView("redirect:/cart/");
-        return modelAndView;
+        double totalPrice = 0;
+        for (int i = 0; i < skus.size();i++){
+            totalPrice+=productService.findProductBySkuId(skus.get(i).getSkuId()).getPrice();
+        }
+        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
     }
 }

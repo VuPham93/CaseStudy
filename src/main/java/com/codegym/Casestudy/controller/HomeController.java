@@ -37,8 +37,16 @@ public class HomeController {
     IRoleService roleService;
 
     private String getPrincipal(){
+        String mail = null;
         String userName = null;
-        userName = customerService.findByMail(getMail()).getName();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            mail = ((UserDetails)principal).getUsername();
+            userName = customerService.findByMail(mail).getName();
+        } else {
+            userName = null;
+        }
         return userName;
     }
 
@@ -59,11 +67,16 @@ public class HomeController {
         return new ModelAndView("login");
     }
 
-    @GetMapping
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/home/login";
+    }
+
+    @GetMapping()
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("productList", productService.findAll());
-//        modelAndView.addObject("nameUser",getPrincipal());
+        modelAndView.addObject("nameUser",getPrincipal());
         return modelAndView;
     }
 
@@ -84,7 +97,10 @@ public class HomeController {
             mav.addObject("message", "An account for that username/email already exists.");
             return mav;
         }
-            return new ModelAndView("signup", "customer", customer);
+            ModelAndView mav = new ModelAndView("signup");
+            mav.addObject("message","Đăng kí thành công");
+            mav.addObject("customer",customer);
+            return mav;
     }
 
     @GetMapping("/edit")
