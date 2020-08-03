@@ -36,14 +36,27 @@
                                         <dl class="param param-inline small">
                                             <dt>Size:</dt>
                                             <th:block th:each="option:${product.getValue()}">
-                                                <dd th:text="${option.getKey()}"></dd>
+<!--                                                <dd th:text="${option.getKey()}"></dd>-->
+                                             <dd th:switch="${option.getKey()}">
+                                                 <span th:case="1" th:text="S"></span>
+                                                 <span th:case="2" th:text="M"></span>
+                                                 <span th:case="3" th:text="L"></span>
+                                                 <span th:case="4" th:text="XL"></span>
+
+                                             </dd>
                                             </th:block>
 
                                         </dl>
                                         <dl class="param param-inline small">
                                             <dt>Color:</dt>
                                             <th:block th:each="option:${product.getValue()}">
-                                                <dd th:text="${option.getValue()}"></dd>
+<!--                                                <dd th:text="${option.getValue()}"></dd>-->
+                                                <dd th:switch="${option.getValue()}">
+                                                    <span th:case="5" th:text="black"></span>
+                                                    <span th:case="6" th:text="white"></span>
+                                                    <span th:case="7" th:text="red"></span>
+
+                                                </dd>
                                             </th:block>
                                         </dl>
                                     </figcaption>

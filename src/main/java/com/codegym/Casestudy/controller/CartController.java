@@ -1,8 +1,6 @@
 package com.codegym.Casestudy.controller;
 
-import com.codegym.Casestudy.model.Cart;
-import com.codegym.Casestudy.model.Product;
-import com.codegym.Casestudy.model.Sku;
+import com.codegym.Casestudy.model.*;
 import com.codegym.Casestudy.service.cart.ICartService;
 import com.codegym.Casestudy.service.customer.ICustomerService;
 import com.codegym.Casestudy.service.option.IOptionService;
@@ -36,6 +34,15 @@ public class CartController {
     IOptionService optionService;
     @Autowired
     ICustomerService customerService;
+    @ModelAttribute("sizes")
+    public Iterable<Option> sizes() {
+        return optionService.findByOptionGroup(1L);
+    }
+
+    @ModelAttribute("colors")
+    public Iterable<Option> colors() {
+        return optionService.findByOptionGroup(2L);
+    }
     @ModelAttribute("userIdLogin")
     public Long userIdLogin(){
         String mail = null;
@@ -64,11 +71,7 @@ public class CartController {
             cartService.save(cart);
         } else {
             Cart cart1 = new Cart(userIdLogin);
-//            cart.setUserId(userIdLogin);
             List<Sku> skus = new ArrayList<>();
-
-
-//            List<Sku> skus = (List<Sku>) cart1.getSkus();
             skus.add(skuService.findByProductIdAndOptions(productId,sizeOption,colorOption));
             cart1.setSkus(skus);
             cart1.setCartQuantity(1);
@@ -81,13 +84,13 @@ public class CartController {
     public ModelAndView listCart(@ModelAttribute("userIdLogin") Long userIdLogin) {
         Cart cart = cartService.findCartByUserId(userIdLogin);
         List<Sku> skus= (List<Sku>) cart.getSkus();
-        Map<Product, Map<String, String>> outerMap = new HashMap<>();
+        Map<Product, Map<Long, Long>> outerMap = new HashMap<>();
 
         double totalPrice = 0;
         for (int i = 0; i < skus.size();i++){
-            Map<String, String> innerMap = new HashMap<>();
-            String size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionName();
-            String color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionName();
+            Map<Long, Long> innerMap = new HashMap<>();
+            Long size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionId();
+            Long color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionId();
             innerMap.put(size,color);
             outerMap.put(productService.findProductBySkuId(skus.get(i).getSkuId()),innerMap);
             totalPrice+=productService.findProductBySkuId(skus.get(i).getSkuId()).getPrice();
@@ -110,18 +113,4 @@ public class CartController {
         ModelAndView modelAndView = new ModelAndView("redirect:/cart/");
         return modelAndView;
     }
-//    @GetMapping("/deleteproduct/{id}")
-//    public ModelAndView detleteProduct(@PathVariable("id") Long id) {
-//        Cart cart = cartService.findCartByUserId(1L);
-//
-//        List<Product> products = (List<Product>) cart.getProducts();
-//        products.remove(productService.findById(id));
-//        cart.setProducts(products);
-//        cartService.save(cart);
-//        ModelAndView modelAndView = new ModelAndView("/cart/cart");
-//        modelAndView.addObject("products", products);
-//        modelAndView.addObject("cart", cart);
-//        return modelAndView;
-//
-//    }
 }

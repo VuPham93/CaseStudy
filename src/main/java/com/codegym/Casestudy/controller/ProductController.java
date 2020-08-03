@@ -190,7 +190,7 @@ public class ProductController {
     @PostMapping("/findSkuByProductName")
     public ModelAndView findSkuByProductName(@RequestParam("search") String search) {
         Iterable<Product> products = productService.findByName(search);
-        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        ModelAndView modelAndView = new ModelAndView("product/list");
         modelAndView.addObject("products",products);
 
         return modelAndView;
@@ -212,7 +212,7 @@ public class ProductController {
     public ModelAndView findProductByCategory(@RequestParam(value="category", required=true) String category) {
         Category category1 = categoryService.findCategoryByCategoryName(category);
         Iterable<Product> productList = productService.findProductByCategory(category1.getCategoryId());
-        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        ModelAndView modelAndView = new ModelAndView("product/list");
         modelAndView.addObject("products",productList);
         return modelAndView;
     }
