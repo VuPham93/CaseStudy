@@ -63,7 +63,7 @@ public class HomeController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("productList", productService.findAll());
-//        modelAndView.addObject("nameUser",getPrincipal());
+        modelAndView.addObject("nameUser",getPrincipal());
         return modelAndView;
     }
 

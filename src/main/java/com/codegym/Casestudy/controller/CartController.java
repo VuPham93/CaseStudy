@@ -53,8 +53,7 @@ public class CartController {
 
 
     @GetMapping("/addtocart/{productId}/{sizeOption}/{colorOption}")
-    public ResponseEntity<Sku> addToCart(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption,
-      @PathVariable("colorOption") Long colorOption,@ModelAttribute("userIdLogin") Long userIdLogin) {
+    public ResponseEntity<Sku> addToCart(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption, @PathVariable("colorOption") Long colorOption,@ModelAttribute("userIdLogin") Long userIdLogin) {
         Cart cart = cartService.findCartByUserId(userIdLogin);
         if (cart != null) {
             List<Sku> skus = (List<Sku>) cart.getSkus();
@@ -64,11 +63,8 @@ public class CartController {
             cartService.save(cart);
         } else {
             Cart cart1 = new Cart(userIdLogin);
-//            cart.setUserId(userIdLogin);
             List<Sku> skus = new ArrayList<>();
 
-
-//            List<Sku> skus = (List<Sku>) cart1.getSkus();
             skus.add(skuService.findByProductIdAndOptions(productId,sizeOption,colorOption));
             cart1.setSkus(skus);
             cart1.setCartQuantity(1);
@@ -81,13 +77,12 @@ public class CartController {
     public ModelAndView listCart(@ModelAttribute("userIdLogin") Long userIdLogin) {
         Cart cart = cartService.findCartByUserId(userIdLogin);
         List<Sku> skus= (List<Sku>) cart.getSkus();
-        Map<Product, Map<String, String>> outerMap = new HashMap<>();
-
+        Map<Product, Map<Long, Long>> outerMap = new HashMap<>();
         double totalPrice = 0;
         for (int i = 0; i < skus.size();i++){
-            Map<String, String> innerMap = new HashMap<>();
-            String size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionName();
-            String color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionName();
+            Map<Long, Long> innerMap = new HashMap<>();
+            Long size = optionService.findByOptionId(skus.get(i).getOption(1L)).get().getOptionId();
+            Long color = optionService.findByOptionId(skus.get(i).getOption(2L)).get().getOptionId();
             innerMap.put(size,color);
             outerMap.put(productService.findProductBySkuId(skus.get(i).getSkuId()),innerMap);
             totalPrice+=productService.findProductBySkuId(skus.get(i).getSkuId()).getPrice();
@@ -99,29 +94,17 @@ public class CartController {
         return modelAndView;
     }
 
-    @GetMapping("/deleteproduct/{productId}/{sizeOption}/{colorOption}")
-    public ModelAndView deleteProduct(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption,
-                                  @PathVariable("colorOption") Long colorOption){
+    @DeleteMapping("/delete-product/{productId}/{sizeOption}/{colorOption}")
+    public ResponseEntity<Double> deleteProduct(@PathVariable("productId") Long productId,@PathVariable("sizeOption") Long sizeOption, @PathVariable("colorOption") Long colorOption){
         Cart cart = cartService.findCartByUserId(1L);
         List<Sku> skus = (List<Sku>) cart.getSkus();
         skus.remove(skuService.findByProductIdAndOptions(productId,sizeOption,colorOption));
         cart.setSkus(skus);
         cartService.save(cart);
-        ModelAndView modelAndView = new ModelAndView("redirect:/cart/");
-        return modelAndView;
+        double totalPrice = 0;
+        for (int i = 0; i < skus.size();i++){
+            totalPrice+=productService.findProductBySkuId(skus.get(i).getSkuId()).getPrice();
+        }
+        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
     }
-//    @GetMapping("/deleteproduct/{id}")
-//    public ModelAndView detleteProduct(@PathVariable("id") Long id) {
-//        Cart cart = cartService.findCartByUserId(1L);
-//
-//        List<Product> products = (List<Product>) cart.getProducts();
-//        products.remove(productService.findById(id));
-//        cart.setProducts(products);
-//        cartService.save(cart);
-//        ModelAndView modelAndView = new ModelAndView("/cart/cart");
-//        modelAndView.addObject("products", products);
-//        modelAndView.addObject("cart", cart);
-//        return modelAndView;
-//
-//    }
 }

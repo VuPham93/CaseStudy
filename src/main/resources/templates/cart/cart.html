@@ -26,24 +26,36 @@
                     </thead>
                     <tbody>
                     <th:block th:each="product:${productCart}">
-                        <tr>
+                        <tr class="parentCart">
                             <td>
                                 <figure class="media">
-                                    <div class="img-wrap"><img th:src="@{/img/product/__${product.getKey().picture}__}"
-                                                               class="img-thumbnail img-sm"></div>
+                                    <div class="img-wrap"><img th:src="@{/img/product/__${product.getKey().picture}__}" class="img-thumbnail img-sm"></div>
                                     <figcaption class="media-body">
+                                        <input hidden class="productId" th:value="${product.getKey().productId}">
                                         <h6 class="title text-truncate" th:text="${product.getKey().productName}"></h6>
                                         <dl class="param param-inline small">
                                             <dt>Size:</dt>
                                             <th:block th:each="option:${product.getValue()}">
-                                                <dd th:text="${option.getKey()}"></dd>
+                                                <input hidden  class="sizeId" th:value="${option.getKey()}">
+                                                <!--                                                <dd th:text="${option.getKey()}"></dd>-->
+                                                <dd class="sizeId" th:switch="${option.getKey()}">
+                                                    <span th:case="1" th:text="S"></span>
+                                                    <span th:case="2" th:text="M"></span>
+                                                    <span th:case="3" th:text="L"></span>
+                                                    <span th:case="4" th:text="XL"></span>
+                                                </dd>
                                             </th:block>
-
                                         </dl>
                                         <dl class="param param-inline small">
                                             <dt>Color:</dt>
                                             <th:block th:each="option:${product.getValue()}">
-                                                <dd th:text="${option.getValue()}"></dd>
+                                                <input hidden  class="colorId" th:value="${option.getValue()}">
+                                                <!--                                                <dd th:text="${option.getValue()}"></dd>-->
+                                                <dd class="colorId" th:switch="${option.getValue()}">
+                                                    <span th:case="5" th:text="black"></span>
+                                                    <span th:case="6" th:text="white"></span>
+                                                    <span th:case="7" th:text="red"></span>
+                                                </dd>
                                             </th:block>
                                         </dl>
                                     </figcaption>
@@ -59,7 +71,7 @@
                             </td>
                             <td>
                                 <div class="price-wrap">
-                                    <var class="price" th:text="${product.getKey().price}"></var>
+                                    <var th:text="${product.getKey().price}"></var>
                                     <!--                        <small class="text-muted">(USD5 each)</small>-->
                                 </div> <!-- price-wrap .// -->
                             </td>
@@ -155,29 +167,28 @@
 </div>
 <!--payment-->
 
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        //sư kiện nào thực hiện Ajax-->
-<!--        $('.btn-outline-danger').click(function (event) {-->
-<!--            //lay du lieu-->
-<!--            let a = $(this);-->
-<!--            let idClass = a.attr("href");-->
-<!--            // goi ajax-->
-<!--            $.ajax({-->
-<!--                type: "GET",-->
-<!--                //tên API-->
-<!--                url: "/cart/",-->
-<!--                //xử lý khi thành công-->
-<!--                success: function () {-->
-<!--                    a.parent().parent().remove();-->
+<script>
+    $(document).ready(function () {
+        $('.btn-outline-danger').click(function (event) {
 
-<!--                }-->
+            let a = $(this);
+            let productId = $('.parentCart .productId').val();
+            let sizeOptionId = $('.parentCart .sizeId').val();
+            let colorOptionId = $('.parentCart .colorId').val();
 
-<!--            });-->
-<!--            //chặn sự kiện mặc định của thẻ-->
-<!--            event.preventDefault();-->
-<!--        });-->
-<!--    })-->
-<!--</script>-->
+            $.ajax({
+                type: "DELETE",
+                url:"/cart/delete-product/" + productId + "/" + sizeOptionId+ "/" + colorOptionId,
+                success: function (totalPrice) {
+                    a.parent().parent().remove();
+                    document.getElementById("totalPrice1").innerHTML = totalPrice;
+                    document.getElementById("totalPrice2").innerHTML = totalPrice;
+                }
+
+            });
+            event.preventDefault();
+        });
+    })
+</script>
 </body>
 </html>
