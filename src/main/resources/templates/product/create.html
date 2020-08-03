@@ -8,130 +8,18 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{css/style-home.css}">
-
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-home.css}">
+    <script type="text/javascript" th:src="@{/javascript/product-create.js}"></script>
     <title>Add new product</title>
-
-    <script type="text/javascript">
-        let option = 0;
-        function addOption() {
-            option++;
-            let table = document.getElementById("dataTable");
-            let tableLength = table.rows.length;
-            table.insertRow(tableLength).outerHTML =
-                `<tr>
-                    <td><input type='text' class='skuValue form-control'/></td>
-                    <td>
-                        <select class='optionSizeId form-control'>
-                            <option value='1'>S</option>
-                            <option value='2'>M</option>
-                            <option value='3'>L</option>
-                            <option value='4'>XL</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class='optionColorId form-control'>
-                            <option value='5'>Black</option>
-                            <option value='6'>White</option>
-                            <option value='7'>Red</option>
-                            <option value='8'>Blue</option>
-                            <option value='9'>Yellow</option>
-                            <option value='10'>Orange</option>
-                        </select>
-                    </td>
-                    <td><input type='number' class='quantity form-control'/></td>
-                    <td><button class="deleteButton btn btn-danger" onclick="deleteOption()">X</button></td>
-                </tr>`;
-        }
-
-        function deleteOption() {
-            $("#dataTable").on("click", ".deleteButton", function () {
-                $(this).closest("tr").remove();
-            });
-        }
-
-        function addProduct() {
-            let listSkuValue = document.getElementsByClassName('skuValue');
-            let listQuantity = document.getElementsByClassName('quantity');
-            let listOptionSizeId = document.getElementsByClassName('optionSizeId');
-            let listOptionColorId = document.getElementsByClassName('optionColorId');
-            let jsonList = [];
-
-            for (let i = 0; i < listSkuValue.length; i++) {
-                let jsonText = {"skuValue": $(listSkuValue[i]).val(),
-                    "quantity": $(listQuantity[i]).val(),
-                    "options": [
-                        {
-                            "optionId": $(listOptionSizeId[i]).val()
-                        },
-                        {
-                            "optionId": $(listOptionColorId[i]).val()
-                        }
-                    ]
-                }
-                jsonList.push(jsonText)
-            }
-
-            let productName = $("#productName").val();
-            let categoryId = $("#categoryId").val();
-            let detail = $("#detail").val();
-            let price = $("#price").val();
-            let image = $("#file-upload")[0].files[0];
-            let picture = image.name;
-
-            let json = {
-                "productName": productName,
-                "detail": detail,
-                "price": price,
-                "skuList": jsonList,
-                "category": {
-                    "categoryId": categoryId
-                },
-                "picture": picture,
-            };
-
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "POST",
-                data: JSON.stringify(json),
-                url: "/product/create",
-                success: function () {
-                    let file = new FormData();
-                    file.append('image', image);
-
-                    $.ajax({
-                        url: "/product/img-upload",
-                        type: "POST",
-                        data: file,
-                        enctype: 'multipart/form-data',
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        success: function (res) {
-                            console.log(res);
-                        },
-                        error: function (err) {
-                            console.error(err);
-                        }
-                    });
-                    document.getElementById("message").innerHTML = "Product added!"
-                }
-            });
-            event.preventDefault();
-        }
-    </script>
 </head>
-<body style="background-image: linear-gradient(#219eef, #faf6f6)">
+<body style="background-image: linear-gradient(#217eef, #faf6f6)">
 <!--HEADER-->
 <header>
     <!--TOP NAVIGATION BAR-->
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
         <!--Logo-->
-        <a class="navbar-brand pb-2" href="#">
-            <img  th:src="@{/img/logo.png}" height="30" width="110"/>
+        <a class="navbar-brand pb-2" th:href="@{/home}">
+            <img th:src="@{/img/logo.png}" height="30" width="110"/>
         </a>
 
         <!--Navigation bar toggle-->
@@ -254,57 +142,63 @@
 <!--END OF HEADER-->
 
 <!--CONTENT-->
-<div class="container pb-5">
-    <h1>Add new product</h1>
-    <div>
-    <h4 class="text-success d-flex justify-content-center" id="message"></h4>
-
-        <label for="file-upload">Select file to upload</label>
-        <input type="file" id="file-upload" name="file">
-
-    <fieldset>
-        <legend>Product information</legend>
-        <table class="table table-borderless table-hover">
-            <tr>
-                <th class="w-25" scope="row">Name:</th>
-                <td class="w-75">
-                    <input class="form-control" type="text" id="productName"/>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Category:</th>
-                <td>
-                    <select class="form-control" id="categoryId">
-                        <option th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}"></option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Detail:</th>
-                <td><input class="form-control" type="text" id="detail"/></td>
-            </tr>
-            <tr>
-                <th scope="row">Price:</th>
-                <td><input class="form-control" type="number" id="price"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-primary" onclick="addOption()">Add option</button>
-                </td>
-                <td>
-                    <table id="dataTable" class="table table-borderless table-hover">
+<div class="container pb-5 pt-5">
+    <div class="row">
+        <div class="col col-lg-4 col-md-12 col-sm-12 col-xs-12 image-upload">
+            <label for="file-upload">
+                <img id="output" th:src="@{/img/product/no-product.jpg}" style="height: 500px; width: 350px; border-radius: 24px">
+            </label>
+            <input type="file" id="file-upload" name="file-upload" accept="image/*" onchange="loadFile(event)">
+        </div>
+        <div class="col col-lg-8 col-md-12 col-sm-12 col-xs-12 pl-5">
+            <h1>Add new product</h1>
+            <div>
+                <h4 class="text-success d-flex justify-content-center" id="message"></h4>
+                <fieldset>
+                    <legend>Product information</legend>
+                    <table class="table table-borderless table-hover">
                         <tr>
-                            <th class="w-25">SKU</th>
-                            <th class="w-25">Size</th>
-                            <th class="w-25">Color</th>
-                            <th class="w-25">Quantity</th>
+                            <th class="w-25" scope="row">Name:</th>
+                            <td class="w-75">
+                                <input class="form-control" type="text" id="productName" onchange="setSku(this.value)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Category:</th>
+                            <td>
+                                <select class="form-control" id="categoryId">
+                                    <option th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Detail:</th>
+                            <td><textarea  rows = "3" class="form-control" id="detail"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Price:</th>
+                            <td><input class="form-control" type="number" id="price"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-primary" onclick="addOption()">Add option</button>
+                            </td>
+                            <td>
+                                <table id="dataTable" class="table table-borderless table-hover">
+                                    <tr>
+                                        <th class="w-25">SKU</th>
+                                        <th class="w-25">Size</th>
+                                        <th class="w-25">Color</th>
+                                        <th class="w-25">Quantity</th>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
-                </td>
-            </tr>
-        </table>
-        <button class="btn btn-primary btn-lg btn-block" onclick="addProduct()">Add product</button>
-    </fieldset>
+                    <button class="btn btn-primary btn-lg btn-block" onclick="addProduct()">Add product</button>
+                </fieldset>
+            </div>
+        </div>
     </div>
 </div>
 <!--END OF CONTENT-->

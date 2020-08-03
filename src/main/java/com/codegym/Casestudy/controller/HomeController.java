@@ -3,6 +3,8 @@ package com.codegym.Casestudy.controller;
 import com.codegym.Casestudy.exception.UserAlreadyExistException;
 import com.codegym.Casestudy.model.user.Customer;
 import com.codegym.Casestudy.service.customer.ICustomerService;
+import com.codegym.Casestudy.service.product.IProductService;
+import com.codegym.Casestudy.service.sku.ISkuService;
 import com.codegym.Casestudy.service.role.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
+    @Autowired
+    IProductService productService;
+
+    @Autowired
+    ISkuService skuService;
 
     @Autowired
     ICustomerService customerService;
@@ -60,7 +67,8 @@ public class HomeController {
     @GetMapping()
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
-//            modelAndView.addObject("nameUser",getPrincipal());
+        modelAndView.addObject("productList", productService.findAll());
+//        modelAndView.addObject("nameUser",getPrincipal());
         return modelAndView;
     }
 
@@ -123,8 +131,6 @@ public class HomeController {
         modelAndView.addObject("message", "Customer updated successfully");
         return modelAndView;
     }
-
-
 
 }
 

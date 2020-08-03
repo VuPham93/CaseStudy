@@ -57,7 +57,7 @@ public class ProductController {
 
     @GetMapping("/")
     public ModelAndView showList() {
-        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        ModelAndView modelAndView = new ModelAndView("/product/list");
         Iterable<Product> productPageable = productService.findAll();
         modelAndView.addObject("products", productPageable);
         return modelAndView;
@@ -107,6 +107,7 @@ public class ProductController {
     public ModelAndView showDetail(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("/product/detail");
         Product product = productService.findById(id).get();
+        Iterable<Product> productList = productService.findProductByCategory(product.getCategory().getCategoryId());
         List<Sku> skuList = product.getSkuList();
 
         List<Option> sizeList = new ArrayList<>();
@@ -129,6 +130,7 @@ public class ProductController {
         }
 
         modelAndView.addObject("product", product);
+        modelAndView.addObject("productList", productList);
         modelAndView.addObject("sizeList", sizeList);
         modelAndView.addObject("colorList", colorList);
         return modelAndView;
@@ -173,16 +175,25 @@ public class ProductController {
         return modelAndView;
     }
 
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return "redirect:/product/";
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Product> delete(@PathVariable Long id) {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/findSkuByProductName/{productName}")
-    public ResponseEntity<Iterable<Product>> findSkuByProductIdAndAndOptions(@PathVariable String productName) {
-        Iterable<Product> productList = productService.findByName(productName);
-        return new ResponseEntity<>(productList, HttpStatus.OK);
+    @PostMapping("/findSkuByProductName")
+    public ModelAndView findSkuByProductName(@RequestParam("search") String search) {
+        Iterable<Product> products = productService.findByName(search);
+        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        modelAndView.addObject("products",products);
+
+        return modelAndView;
     }
 
     @GetMapping("/findSkuByProductIdAndOptions/{productId}/{sizeOption}/{colorOption}")
@@ -197,10 +208,13 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/findProductByCategory/{categoryId}")
-    public ResponseEntity<Iterable<Product>> findProductByCategory(@PathVariable Long categoryId) {
-        Iterable<Product> productList = productService.findProductByCategory(categoryId);
-        return new ResponseEntity<>(productList, HttpStatus.OK);
+    @GetMapping("/findProductByCategory")
+    public ModelAndView findProductByCategory(@RequestParam(value="category", required=true) String category) {
+        Category category1 = categoryService.findCategoryByCategoryName(category);
+        Iterable<Product> productList = productService.findProductByCategory(category1.getCategoryId());
+        ModelAndView modelAndView = new ModelAndView("/product/listProduct");
+        modelAndView.addObject("products",productList);
+        return modelAndView;
     }
 
     @GetMapping("/findProductByOptionId/{optionId}")

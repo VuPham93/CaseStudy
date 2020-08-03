@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/listProduct.css}">
-    <link rel="stylesheet" href="../../static/css/listProduct.css">
+    <link rel="stylesheet" href="../../static/css/style-list-product.css">
 
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="card bg-light mb-3" id="sidebar">
-            <form  method="post" action="/product/search" style="width:200px">
+            <form  method="post" th:action="@{/product/findSkuByProductName}" style="width:200px">
                 <input class="form-control " type="text" name="search" placeholder="Search" aria-label="Search">
                 <input type="submit" style="display: none" />
             </form>
@@ -29,16 +29,11 @@
             <h3>CATEGORIES</h3>
             <div class="checklist categories">
                 <ul>
-                    <li><a href=""><span></span>New Arivals</a></li>
-                    <li><a href=""><span></span>Accesories</a></li>
-                    <li><a href=""><span></span>Bags</a></li>
-                    <li><a href=""><span></span>Dressed</a></li>
-                    <li><a href=""><span></span>Jackets</a></li>
-                    <li><a href=""><span></span>jewelry</a></li>
-                    <li><a href=""><span></span>Shoes</a></li>
-                    <li><a href=""><span></span>Shirts</a></li>
-                    <li><a href=""><span></span>Sweaters</a></li>
-                    <li><a href=""><span></span>T-shirts</a></li>
+                    <li><a th:href="@{/product/findProductByCategory(category='Shirt')}">Shirt</a></li>
+                    <li><a th:href="@{/product/findProductByCategory(category='Dress')}">Dress</a></li>
+                    <li><a th:href="@{/product/findProductByCategory(category='Trousers')}">Trousers</a></li>
+                    <li><a th:href="@{/product/findProductByCategory(category='Bikini')}">Bikini</a></li>
+
                 </ul>
             </div>
         </div>
@@ -274,7 +269,7 @@
                 type: "GET",
 
                 //tên API
-                url: "/cart/addtocart/" + productId,
+                url: "/cart/addtocart/" + productId +"/2/7",
             });
 
             var productCard = $(this).parent();

@@ -51,7 +51,7 @@ function addToCart() {
     } else {
         $.ajax({
             type: 'GET',
-            url: '/product/findSkuByProductIdAndOptions/' + productId + '/' + sizeId + '/' + colorId,
+            url: '/cart/addtocart/' + productId + '/' + sizeId + '/' + colorId,
             success: function () {
                 console.log(productId, sizeId, colorId)
             }

@@ -17,11 +17,19 @@ public class Cart {
 
     private double cartQuantity;
 
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Collection<Product> products;
+    @JoinTable(name = "cart_sku", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "sku_id"))
+    private Collection<Sku> skus;
+
+    public Cart() {
+    }
+    public Cart(Long userId) {
+        this.userId = userId;
+    }
+
 
     public double getCartQuantity() {
         return cartQuantity;
@@ -47,11 +55,11 @@ public class Cart {
         this.userId = userId;
     }
 
-    public Collection<Product> getProducts() {
-        return products;
+    public Collection<Sku> getSkus() {
+        return skus;
     }
 
-    public void setProducts(Collection<Product> products) {
-        this.products = products;
+    public void setSkus(Collection<Sku> skus) {
+        this.skus = skus;
     }
 }
