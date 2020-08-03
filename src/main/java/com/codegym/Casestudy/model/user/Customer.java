@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -31,7 +32,6 @@ public class Customer {
     @Column(nullable = false)
     @NotEmpty
     @NotNull
-//    @Size(min = 6,max = 12,message = "Passwords must be at least 6 characters,up to 16 characters")
     private String password;
 
     private String matchingPassword;

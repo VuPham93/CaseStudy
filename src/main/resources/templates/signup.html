@@ -34,12 +34,12 @@
             <p>Name :</p>
             <input
                     type="text"
-                    placeholder="Nhập tên"
+                    placeholder="Enter Name"
                     th:field="*{name}"
             >
         </div>
         <div style="height: 15px">
-            <p th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
         </div>
 
         <!--Email-->
@@ -48,25 +48,25 @@
             <input type="text"
                    placeholder=""
                    pattern="^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]{0,10})*@[A-Za-z0-9]+(\.[A-Za-z0-9]{0,10})*(\.[A-Za-z]{0,5})$"
-                   title="Email ko hợp lệ"
+                   title="The email is not valid"
                    th:field="*{mail}"
                    >
         </div>
         <div style="height: 15px">
-            <p th:each="error : ${#fields.errors('mail')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('mail')}" th:text="${error}"></p>
         </div>
 
         <!--Password-->
         <div class="textbox">
             <p>Password</p>
             <input type="password"
-                   placeholder="Passwords must be at least 6 characters,up to 16 characters."
+                   placeholder="Passwords must be at least 6 characters,up to 12 characters."
                    pattern="[a-z0-9_-]{6,12}$"
-                   title="Mật khẩu gồm chữ thường và số từ 6 đến 12 kí tự"
+                   title="Passwords must be at least 6 characters,up to 12 characters."
                    th:field="*{password}" >
         </div>
         <div style="height: 15px">
-            <p th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
         </div>
 
         <!-- Re-enter Password-->
@@ -84,7 +84,7 @@
                    th:field="*{address}" >
         </div>
         <div style="height: 15px">
-            <p th:each="error : ${#fields.errors('address')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('address')}" th:text="${error}"></p>
         </div>
 
 <!--        phone number-->
@@ -93,16 +93,16 @@
             <input type="text"
                    placeholder=""
                    pattern="(08|09|01[2|6|8|9])+([0-9]{8})\b"
-                   title="Số điện thoại không hợp lệ"
+                   title="The phone is not valid"
                    th:field="*{phoneNumber}"
                    >
         </div>
         <div style="height: 15px">
-            <p th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
         </div>
 
         <div style="height: 15px">
-            <th:block th:if="${message}"><p th:text="${message}"></p></th:block>
+            <th:block th:if="${message}"><p style="color: #ff0000; text-align: center" th:text="${message}"></p></th:block>
         </div>
 
         <input type="submit" value="Sign Up" class="signUp-btn" disabled>

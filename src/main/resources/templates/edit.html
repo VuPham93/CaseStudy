@@ -28,19 +28,19 @@
     <h6>Edit</h6>
 
     <!--Sign Up form-->
-    <form method="post" action="#" th:object="${customer}" >
+    <form method="post" th:action="@{/home/edit}" th:object="${customer}" >
         <!--User name-->
         <div class="textbox">
             <p>Name :</p>
             <input
                     type="text"
-                    placeholder="Nhập tên"
+                    placeholder="Enter Name"
                     th:field="*{name}"
             >
             <input th:type="hidden" name="id" th:field="*{id}">
         </div>
         <div style="height: 20px">
-            <p th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
         </div>
 
         <!--Email-->
@@ -52,7 +52,7 @@
             >
         </div>
         <div style="height: 20px">
-            <p th:each="error : ${#fields.errors('mail')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('mail')}" th:text="${error}"></p>
         </div>
 
         <!--Password-->
@@ -63,7 +63,7 @@
                    th:field="*{password}" >
         </div>
         <div style="height: 20px">
-            <p th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
         </div>
 
         <!-- Re-enter Password-->
@@ -77,7 +77,7 @@
         <div class="textbox">
             <p>Address</p>
             <input type="text"
-                   placeholder=""
+                   placeholder="Enter Address"
                    th:field="*{address}" >
         </div>
         <div style="height: 20px">
@@ -88,26 +88,26 @@
         <div class="textbox">
             <p>Phone Number</p>
             <input type="text"
-                   placeholder=""
+                   placeholder="Enter PhoneNumber"
                    th:field="*{phoneNumber}"
             >
         </div>
         <div style="height: 20px">
-            <p th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
+            <p style="color: #ff0000; text-align: center" th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
         </div>
 
         <div style="height: 20px">
-            <th:block th:if="${message}"><p th:text="${message}"></p></th:block>
+            <th:block th:if="${message}"><p style="color: #ff0000; text-align: center" th:text="${message}"></p></th:block>
         </div>
 
         <!--        Error-->
-        <!--        <div style="height: 20px; margin-top: 5px">-->
-        <!--            <p style="color: #ff0000; text-align: center">Pass error</p>-->
-        <!--            <p style="color: #00ff04; text-align: center">Message</p>-->
-        <!--            <p style="color: #ff0000; text-align: center">Message error</p>-->
-        <!--        </div>-->
+<!--                <div style="height: 20px; margin-top: 5px">-->
+<!--                    <p style="color: #ff0000; text-align: center">Pass error</p>-->
+<!--                    <p style="color: #00ff04; text-align: center">Message</p>-->
+<!--                    <p style="color: #ff0000; text-align: center">Message error</p>-->
+<!--                </div>-->
         <!--Sign Up button-->
-        <input type="submit" value="Save" class="signUp-btn" disabled>
+        <input type="submit" value="Save" class="signUp-btn">
 
         <!--Private Policy-->
         <div class="privacy-link">

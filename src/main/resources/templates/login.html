@@ -45,7 +45,7 @@
 
         <!--Error-->
         <div style="height: 20px">
-            <p style="color: red; text-align: center">ERROR MESSAGE</p>
+            <p style="color: red; text-align: center" th:if="${param.error != null}"> Wrong email or password</p>
         </div>
 
         <!--Remember-->
