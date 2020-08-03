@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/style-login.css}">
+    <link rel="stylesheet" th:href="@{/css/style-signup.css}">
     <title>Sign Up</title>
     <link href="https://fonts.googleapis.com/css?family=Hind&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
@@ -12,7 +12,7 @@
 <!--CONTENT-->
 <div class="login-form">
     <!--Go back-->
-    <a href="#">< Go back</a>
+    <a href="/home/login">< Go back</a>
 
     <!--Logo-->
     <div class="logo"><img th:src="@{/img/logo.png}" alt="logo"></div>
@@ -38,7 +38,7 @@
                     th:field="*{name}"
             >
         </div>
-        <div style="height: 20px">
+        <div style="height: 15px">
             <p th:each="error : ${#fields.errors('name')}" th:text="${error}"></p>
         </div>
 
@@ -47,10 +47,12 @@
             <p>Mail</p>
             <input type="text"
                    placeholder=""
+                   pattern="^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]{0,10})*@[A-Za-z0-9]+(\.[A-Za-z0-9]{0,10})*(\.[A-Za-z]{0,5})$"
+                   title="Email ko hợp lệ"
                    th:field="*{mail}"
                    >
         </div>
-        <div style="height: 20px">
+        <div style="height: 15px">
             <p th:each="error : ${#fields.errors('mail')}" th:text="${error}"></p>
         </div>
 
@@ -59,9 +61,11 @@
             <p>Password</p>
             <input type="password"
                    placeholder="Passwords must be at least 6 characters,up to 16 characters."
+                   pattern="[a-z0-9_-]{6,12}$"
+                   title="Mật khẩu gồm chữ thường và số từ 6 đến 12 kí tự"
                    th:field="*{password}" >
         </div>
-        <div style="height: 20px">
+        <div style="height: 15px">
             <p th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
         </div>
 
@@ -79,7 +83,7 @@
                    placeholder=""
                    th:field="*{address}" >
         </div>
-        <div style="height: 20px">
+        <div style="height: 15px">
             <p th:each="error : ${#fields.errors('address')}" th:text="${error}"></p>
         </div>
 
@@ -88,24 +92,19 @@
             <p>Phone Number</p>
             <input type="text"
                    placeholder=""
+                   pattern="(08|09|01[2|6|8|9])+([0-9]{8})\b"
+                   title="Số điện thoại không hợp lệ"
                    th:field="*{phoneNumber}"
                    >
         </div>
-        <div style="height: 20px">
+        <div style="height: 15px">
             <p th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
         </div>
 
-        <div style="height: 20px">
+        <div style="height: 15px">
             <th:block th:if="${message}"><p th:text="${message}"></p></th:block>
         </div>
 
-<!--        Error-->
-<!--        <div style="height: 20px; margin-top: 5px">-->
-<!--            <p style="color: #ff0000; text-align: center">Pass error</p>-->
-<!--            <p style="color: #00ff04; text-align: center">Message</p>-->
-<!--            <p style="color: #ff0000; text-align: center">Message error</p>-->
-<!--        </div>-->
-        <!--Sign Up button-->
         <input type="submit" value="Sign Up" class="signUp-btn" disabled>
 
         <!--Private Policy-->

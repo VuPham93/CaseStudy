@@ -45,7 +45,12 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/home", true)
                 .usernameParameter("mail").passwordParameter("password")
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logout()
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/home/logout"))
+//                    .logoutSuccessUrl("/home")
+                    .permitAll()
                 .and().exceptionHandling().accessDeniedPage("/error");
         http.csrf().disable();
     }
