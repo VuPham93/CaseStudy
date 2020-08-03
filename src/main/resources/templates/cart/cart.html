@@ -26,7 +26,7 @@
                     </thead>
                     <tbody>
                     <th:block th:each="product:${productCart}">
-                        <tr class="parentCart">
+                        <tr>
                             <td>
                                 <figure class="media">
                                     <div class="img-wrap"><img th:src="@{/img/product/__${product.getKey().picture}__}" class="img-thumbnail img-sm"></div>
@@ -170,11 +170,10 @@
 <script>
     $(document).ready(function () {
         $('.btn-outline-danger').click(function (event) {
-
             let a = $(this);
-            let productId = $('.parentCart .productId').val();
-            let sizeOptionId = $('.parentCart .sizeId').val();
-            let colorOptionId = $('.parentCart .colorId').val();
+            let productId = a.closest('tr').find('.productId').val();
+            let sizeOptionId = a.closest('tr').find('.sizeId').val();
+            let colorOptionId = a.closest('tr').find('.colorId').val();
 
             $.ajax({
                 type: "DELETE",
