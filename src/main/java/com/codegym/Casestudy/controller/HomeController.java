@@ -97,7 +97,10 @@ public class HomeController {
             mav.addObject("message", "An account for that username/email already exists.");
             return mav;
         }
-            return new ModelAndView("signup", "customer", customer);
+            ModelAndView mav = new ModelAndView("signup");
+            mav.addObject("message","Đăng kí thành công");
+            mav.addObject("customer",customer);
+            return mav;
     }
 
     @GetMapping("/edit")
