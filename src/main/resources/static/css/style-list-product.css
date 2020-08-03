@@ -10,7 +10,7 @@ a{
 
 body {
     font-family: "Open Sans", sans-serif;
-
+    background-repeat: no-repeat;
 }
 
 #wrapper {

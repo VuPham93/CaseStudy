@@ -8,8 +8,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style-home.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style-detail.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-product-detail.css}">
     <title>Detail</title>
 </head>
 <body>
@@ -18,7 +17,7 @@
     <!--TOP NAVIGATION BAR-->
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
         <!--Logo-->
-        <a class="navbar-brand pb-2" href="#">
+        <a class="navbar-brand pb-2" th:href="@{/home}">
             <img th:src="@{/img/logo.png}" height="30" width="110"/>
         </a>
 
@@ -113,16 +112,16 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Top for this month</a>
+                        <a class="nav-link" href="#">Product list</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Our featured picks</a>
+                        <a class="nav-link" th:href="@{/product/create}">Add new product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Summer collection</a>
+                        <a class="nav-link" th:href="@{/product/edit/__${product.productId}__}">Edit product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Autumn choice</a>
+                        <a class="nav-link" th:href="@{/product/delete/__${product.productId}__}">Delete product</a>
                     </li>
                 </ul>
 
@@ -142,7 +141,8 @@
 <!--END OF HEADER-->
 
 <!--CONTENT-->
-<div class='container'>
+<!--Product-->
+<div class='container new-container'>
     <div>
         <img class='highlight-window' th:src="@{/img/product/__${product.picture}__}" style="height: 100%">
     </div>
@@ -176,6 +176,44 @@
     </div>
 </div>
 
+<!--Same Category-->
+<div class="mx-lg-5 px-lg-4 mt-5 py-2 align-self-center" style="margin-bottom: 50px">
+    <p class="display-4">Same Category</p>
+    <section class="hero-section">
+        <div class="card-grid">
+            <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
+                <div class="card__background">
+                    <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
+                </div>
+                <div class="card__content">
+                    <p class="card__category" th:text="${product.category.categoryName}"></p>
+                </div>
+                <div class="card__content d-flex align-items-end" style="height: 100%">
+                    <h3 class="card__heading">
+                        <p th:text="${product.productName}"></p>
+                        <table class="text-white">
+                            <tr>
+                                <td style="width: 100px" rowspan="2">
+                                    <button type="button" class="btn btn-outline-light" disabled style="width: 80px; height: 40px">-20%</button>
+                                </td>
+                                <td>
+                                    <h6 class="card-text font-weight-light" style="text-decoration: line-through">
+                                        <small th:text="${product.price}"></small>
+                                    </h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6 class="card-text font-weight-light">$80</h6>
+                                </td>
+                            </tr>
+                        </table>
+                    </h3>
+                </div>
+            </a>
+        </div>
+    </section>
+</div>
 <!--END OF CONTENT-->
 
 <!--FOOTER-->
@@ -276,5 +314,5 @@
 </footer>
 <!--END OF FOOTER-->
 </body>
-<script type="text/javascript" th:src="@{/css/style-detail.js}"></script>
+<script type="text/javascript" th:src="@{/javascript/product-detail.js}"></script>
 </html>
