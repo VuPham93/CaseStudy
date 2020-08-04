@@ -104,7 +104,7 @@
     </div>
 </header>
 <!--END OF HEADER-->
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="card bg-light mb-3" id="sidebar">
             <form  method="post" th:action="@{/product/findSkuByProductName}" style="width:200px">
@@ -124,7 +124,6 @@
                     <li><a th:href="@{/product/findProductByCategory(category='Dress')}">Dress</a></li>
                     <li><a th:href="@{/product/findProductByCategory(category='Trousers')}">Trousers</a></li>
                     <li><a th:href="@{/product/findProductByCategory(category='Bikini')}">Bikini</a></li>
-
                 </ul>
             </div>
         </div>
@@ -146,9 +145,9 @@
                                         <div class="product-options">
                                             <input type='hidden' id='productId' th:value="${product.productId}"/>
                                             <span class="product_name" th:text="${product.productName}"></span>
-                                            <p class="productPrice" th:text="${product.price}"></p>
+                                            <p class="productPrice" th:text="${'$'+product.price}"></p>
                                             <span>SIZES</span>
-                                            <span>XS, S, M, L, XL, XXL</span>
+                                            <span>S, M, L, XL</span>
                                             <span>COLORS</span>
                                             <div class="colors">
                                                 <div class="c-blue"><span></span></div>
@@ -165,11 +164,106 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
+<!--FOOTER-->
+<footer class="page-footer font-small mdb-color pt-4 bg-light text-secondary">
+    <div class="container text-center text-md-left">
+
+        <!--MAIN FOOTER-->
+        <div class="row text-center text-md-left mt-3 pb-3">
+            <!--SHOP-->
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h6 class="text-uppercase mb-4 font-weight-bold">SHOP</h6>
+                <p>Bong Shop with the motto "Accompany with your fashion style" will be a safe and prestigious shopping place.</p>
+            </div>
+            <hr class="w-100 clearfix d-md-none">
+
+            <!--PRODUCTS-->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
+                <p><a href="#">Bong Shop</a></p>
+                <p><a href="#">Burberry</a></p>
+                <p><a href="#">Hermes</a></p>
+                <p><a href="#">Lacoste</a></p>
+            </div>
+            <hr class="w-100 clearfix d-md-none">
+
+            <!--USEFUL LINKS-->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Useful links</h6>
+                <p><a href="#">Your Account</a></p>
+                <p><a href="#">Become an Affiliate</a></p>
+                <p><a href="#">Shipping Rates</a></p>
+                <p><a href="#">Help</a></p>
+            </div>
+            <hr class="w-100 clearfix d-md-none">
+
+            <!--CONTACT-->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+                <p><i class="fas fa-home mr-3"></i>Ho Tung Mau, Ha Noi</p>
+                <p><i class="fas fa-envelope mr-3"></i>info@example.com</p>
+                <p><i class="fas fa-phone mr-3"></i>+0123 456 788</p>
+                <p><i class="fas fa-print mr-3"></i>+0123 456 789</p>
+            </div>
+
+        </div>
+        <hr>
+
+        <!--CONNECT-->
+        <div class="row d-flex align-items-center">
+            <!--COPYRIGHT-->
+            <div class="col-md-7 col-lg-8">
+                <p class="text-center text-md-left">© 2020 Copyright:
+                    <a href="#">
+                        <strong>BongShop.com</strong>
+                    </a>
+                </p>
+            </div>
+
+            <!--SOCIAL-->
+            <div class="col-md-5 col-lg-4 ml-lg-0">
+                <div class="text-center text-md-right">
+                    <ul class="list-unstyled list-inline">
+                        <!-- Facebook -->
+                        <li class="list-inline-item">
+                            <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <!-- Twitter -->
+                        <li class="list-inline-item">
+                            <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <!-- Google +-->
+                        <li class="list-inline-item">
+                            <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                                <i class="fab fa-google-plus-g"></i>
+                            </a>
+                        </li>
+                        <!--Linkedin -->
+                        <li class="list-inline-item">
+                            <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                        <!--Instagram-->
+                        <li class="list-inline-item">
+                            <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END OF FOOTER-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>

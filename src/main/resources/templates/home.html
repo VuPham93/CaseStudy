@@ -150,14 +150,14 @@
 <!--CONTENT-->
 <div class="container-fluid">
     <div class="container-fluid">
-        <!--New Collection-->
+        <!--New Dress-->
         <div class="mx-lg-5 px-lg-4 mt-5 py-2">
-            <p class="display-4">New Collection</p>
+            <p class="display-4">Dress</p>
             <section class="hero-section">
                 <div class="card-grid">
-                    <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
+                    <a class="cardZoom" th:each="product : ${dress}" th:href="@{/product/detail/__${product.productId}__}">
                         <div class="card__background">
-                            <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
+                            <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; width: 100%; border-radius: 24px">
                         </div>
                         <div class="card__content">
                             <p class="card__category" th:text="${product.category.categoryName}"></p>
@@ -191,10 +191,10 @@
 
         <!--Summer sale-->
         <div class="mx-lg-5 px-lg-4 mt-5 py-2">
-            <p class="display-4">New Collection</p>
+            <p class="display-4">Summer sale</p>
             <section class="hero-section">
                 <div class="card-grid">
-                    <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
+                    <a class="cardZoom" th:each="product : ${bikini}" th:href="@{/product/detail/__${product.productId}__}">
                         <div class="card__background">
                             <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
                         </div>
@@ -230,10 +230,10 @@
 
         <!--Best selling-->
         <div class="mx-lg-5 px-lg-4 mt-5 py-2">
-            <p class="display-4">New Collection</p>
+            <p class="display-4">Best selling</p>
             <section class="hero-section">
                 <div class="card-grid">
-                    <a class="cardZoom" th:each="product : ${productList}" th:href="@{/product/detail/__${product.productId}__}">
+                    <a class="cardZoom" th:each="product : ${trouser}" th:href="@{/product/detail/__${product.productId}__}">
                         <div class="card__background">
                             <img th:src="@{/img/product/__${product.picture}__}" alt="" style="height: 100%; border-radius: 24px">
                         </div>
@@ -267,25 +267,27 @@
             </section>
         </div>
 
-    <!--Catalogue-->
-    <div class="mx-lg-5 px-lg-4 my-5 py-2">
-        <div class="card border-0 bg-gradient" style="border-radius: 24px">
-            <div class="card-horizontal">
-                <div class="card-body col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 p-0 d-flex align-items-center">
-                    <div style="min-height: 300px; padding: 50px">
-                        <h1 class="font-weight-light">BONG SHOP</h1>
-                        <h3 class="font-weight-light">Style is a way to say who you are without having to speak</h3>
-                        <a class="btn btn-info mt-3" type="button" href="#">BROWSE ALL</a>
+        <!--Catalogue-->
+        <div class="mx-lg-5 px-lg-4 my-5 py-2">
+            <div class="card border-0 bg-gradient" style="border-radius: 24px">
+                <div class="card-horizontal">
+                    <div class="card-body col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 p-0 d-flex align-items-center">
+                        <div style="min-height: 300px; padding: 50px">
+                            <h1 class="font-weight-light">BONG SHOP</h1>
+                            <h3 class="font-weight-light">Style is a way to say who you are without having to speak</h3>
+                            <a class="btn btn-info mt-3" type="button" href="#">BROWSE ALL</a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block" >
-                    <img alt="pic" class="w-100 d-none d-sm-block" th:src="@{/img/catalog.png}">
+                    <div class="col-xl-8 col-lg-8 col-md-8 d-none d-md-block" >
+                        <img alt="pic" class="w-100 d-none d-sm-block" th:src="@{/img/catalog.png}">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!--END OF CONTENT-->
+
 
 <!--FOOTER-->
 <footer class="page-footer font-small mdb-color pt-4 bg-light text-secondary">

@@ -76,7 +76,9 @@ public class HomeController {
     @GetMapping()
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject("productList", productService.findAll());
+        modelAndView.addObject("dress", productService.findProductByCategory(2L));
+        modelAndView.addObject("bikini", productService.findProductByCategory(4L));
+        modelAndView.addObject("trouser", productService.findProductByCategory(3L));
         modelAndView.addObject("nameUser",getPrincipal());
         return modelAndView;
     }
